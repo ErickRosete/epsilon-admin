@@ -35,11 +35,8 @@ export class FormDialog extends Component {
     this.setState({ uploadingImage: true });
 
     var formData = new FormData();
-    Array.from(event.target.files).forEach(image => {
-      formData.append("files", image);
-    });
+    formData.append("file", event.target.files[0]);
 
-    // headers: { "Content-Type": "multipart/form-data" },
     fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImages`, {
       method: "POST",
       body: formData
@@ -51,11 +48,11 @@ export class FormDialog extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ uploadingImages: false, imageLinks: resData });
+        this.setState({ uploadingImage: false, imageLink: resData });
         console.log(resData);
       })
       .catch(err => {
-        this.setState({ uploadingImages: false });
+        this.setState({ uploadingImage: false });
         console.log(err);
       });
   };

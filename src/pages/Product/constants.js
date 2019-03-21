@@ -7,7 +7,6 @@ export const GET_PRODUCT = gql`
       name
       price
       imageLinks
-      videoLink
       shortDescription
       description
       subcategories {
@@ -35,7 +34,6 @@ export const ADD_PRODUCT = gql`
     $name: String
     $price: Float
     $imageLinks: [String]
-    $videoLink: String
     $shortDescription: String
     $description: String
     $subcategories: [ID]
@@ -44,7 +42,6 @@ export const ADD_PRODUCT = gql`
       productInput: {
         name: $name
         price: $price
-        videoLink: $videoLink
         imageLinks: $imageLinks
         shortDescription: $shortDescription
         description: $description
@@ -56,6 +53,7 @@ export const ADD_PRODUCT = gql`
       price
       imageLinks
       shortDescription
+      description
     }
   }
 `;
@@ -66,7 +64,6 @@ export const EDIT_PRODUCT = gql`
     $name: String
     $price: Float
     $imageLinks: [String]
-    $videoLink: String
     $shortDescription: String
     $description: String
     $subcategories: [ID]
@@ -77,7 +74,6 @@ export const EDIT_PRODUCT = gql`
         name: $name
         price: $price
         imageLinks: $imageLinks
-        videoLink: $videoLink
         shortDescription: $shortDescription
         description: $description
         subcategories: $subcategories
@@ -87,12 +83,8 @@ export const EDIT_PRODUCT = gql`
       name
       price
       imageLinks
-      videoLink
       shortDescription
       description
-      subcategories {
-        _id
-      }
     }
   }
 `;

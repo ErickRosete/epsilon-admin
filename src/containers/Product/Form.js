@@ -299,7 +299,7 @@ export class Form extends Component {
                 required
                 error={!this.state.editorState.getCurrentContent().hasText()}
               >
-                Contenido del blog
+                Características del producto
               </FormLabel>
               <Editor
                 editorState={this.state.editorState}
