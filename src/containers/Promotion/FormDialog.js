@@ -5,22 +5,27 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
+import Spinner from "../../components/Spinner/Spinner"
+
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import styles from "./styles";
 
 export class FormDialog extends Component {
   constructor(props) {
     super(props);
 
     let name = "";
-    let imageUrl = "";
+    let imageLink = "";
 
     if (this.props.promotion) {
       name = this.props.promotion.name ? this.props.promotion.name : "";
-      imageUrl = this.props.promotion.imageUrl ? this.props.promotion.imageUrl : "";
+      imageLink = this.props.promotion.imageLink ? this.props.promotion.imageLink : "";
     }
 
     this.state = {
       name,
-      imageUrl,
+      imageLink,
       uploadingImage: false,
     }
   }
@@ -37,7 +42,7 @@ export class FormDialog extends Component {
     var formData = new FormData();
     formData.append("file", event.target.files[0]);
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImages`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImage`, {
       method: "POST",
       body: formData
     })
@@ -64,52 +69,86 @@ export class FormDialog extends Component {
     }
 
     //grouping info
-    let subcategory = {
+    let promotion = {
       name: this.state.name,
-      description: this.state.description
+      imageLink: this.state.imageLink,
+      active: true
     }
 
     //adding id in edit
-    if (this.props.subcategory) {
-      subcategory = { ...subcategory, id: this.props.subcategory._id }
+    if (this.props.promotion) {
+      promotion = { ...promotion, id: this.props.promotion._id }
     }
 
-    this.props.onConfirm(subcategory);
+    this.props.onConfirm(promotion);
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <Dialog
         open={this.props.open}
+        classes={{ paper: classes.dialog }}
         onClose={this.props.handleClose}
-        aria-labelledby="form-subcategory-dialog"
+        aria-labelledby="form-promotion-dialog"
       >
         {this.props.subcategory ?
-          <DialogTitle id="form-subcategory-dialog">Editar Subcategoria</DialogTitle> :
-          <DialogTitle id="form-subcategory-dialog">Añadir Subcategoria</DialogTitle>}
+          <DialogTitle id="form-promotion-dialog">Editar Promoción</DialogTitle> :
+          <DialogTitle id="form-promotion-dialog">Añadir Promoción</DialogTitle>}
 
         <DialogContent>
           <TextField
             required
             autoFocus
-            margin="dense"
+            margin="normal"
             label="Name"
             type="text"
             fullWidth
+            className={classes.TextField}
             value={this.state.name}
             onChange={this.changeNameHandler}
             error={this.state.name === ""}
             helperText={this.state.name === "" ? "Valor Requerido" : ""}
           />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Description"
-            type="text"
-            fullWidth
-            value={this.state.description}
-            onChange={this.changeDescriptionHandler}
-          />
+
+          <div className={classes.center}>
+            <input
+              accept="image/*"
+              onChange={this.changeImageHandler}
+              className={classes.input}
+              id="contained-button-file"
+              type="file"
+              multiple={true}
+            />
+            <label htmlFor="contained-button-file">
+              <Button
+                variant="contained"
+                component="span"
+                className={classes.button}
+              >
+                Subir Imagenes
+                </Button>
+            </label>
+
+            {this.state.imageLink && (
+              <div className={classes.imgContainer}>
+                {this.state.uploadingImage ? (
+                  <Spinner />
+                ) : (
+                    <img
+                      height={100}
+                      key={this.state.imageLink}
+                      className={classes.img}
+                      src={this.state.imageLink}
+                      alt="promoción"
+                    />
+                  )}
+              </div>
+            )}
+          </div>
+
+
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.onCancel} color="primary">
@@ -123,5 +162,8 @@ export class FormDialog extends Component {
     );
   }
 }
+FormDialog.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
-export default FormDialog;
+export default withStyles(styles)(FormDialog);

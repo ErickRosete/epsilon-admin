@@ -39,19 +39,21 @@ const ProductCard = props => {
   const { classes, product } = props;
   return (
     <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={product.imageLinks ? product.imageLinks[0] : "/placeholder"}
-          title={product.name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {product.name}
-          </Typography>
-          <Typography component="p">{product.shortDescription}</Typography>
-        </CardContent>
-      </CardActionArea>
+      <Link className={classes.link} to={`product/edit/${product._id}`}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={product.imageLinks ? product.imageLinks[0] : "/placeholder"}
+            title={product.name}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {product.name}
+            </Typography>
+            <Typography component="p">{product.shortDescription}</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Link>
 
       <CardActions>
         <Link className={classes.link} to={`product/edit/${product._id}`}>

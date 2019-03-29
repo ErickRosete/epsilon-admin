@@ -5,7 +5,7 @@ export const GET_PROMOTIONS = gql`
     promotions {
       _id
       name
-      imageUrl
+      imageLink
       active
     }
   }
@@ -14,19 +14,19 @@ export const GET_PROMOTIONS = gql`
 export const ADD_PROMOTION = gql`
   mutation CreatePromotion(
     $name: String
-    $imageUrl: String
+    $imageLink: String
     $active: Boolean
   ) {
     createPromotion(
       promotionInput: {
         name: $name
-        imageUrl: $imageUrl
+        imageLink: $imageLink
         active: $active
       }
     ) {
       _id
       name
-      imageUrl
+      imageLink
       active
     }
   }
@@ -36,20 +36,20 @@ export const EDIT_PROMOTION = gql`
   mutation UpdatePromotion(
     $id: ID!
     $name: String
-    $imageUrl: String
+    $imageLink: String
     $active: Boolean
   ) {
     updatePromotion(
       id: $id
       promotionInput: {
         name: $name
-        imageUrl: $imageUrl
+        imageLink: $imageLink
         active: $active
       }
     ) {
         _id
         name
-        imageUrl
+        imageLink
         active
     }
   }
