@@ -2,7 +2,10 @@ import React, { Component } from "react";
 
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState } from "draft-js";
-import FormLabel from "@material-ui/core/FormLabel";
+import FormLabel from "@material-ui/core/FormLabel/FormLabel";
+import Input from "@material-ui/core/Input/Input"
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox"
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
@@ -15,56 +18,58 @@ import styles from "./styles";
 import Spinner from "../../components/Spinner/Spinner";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import InputAdornment from "@material-ui/core/InputAdornment";
+// import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { Query } from "react-apollo";
 import Select from "react-select";
 import InputLabel from "@material-ui/core/InputLabel";
-import Grid from "@material-ui/core/Grid";
+// import Grid from "@material-ui/core/Grid";
 import { GET_SUBCATEGORIES } from "../../pages/Subcategory/constants";
+import { isNullOrUndefined } from "util";
 
 export class Form extends Component {
   constructor(props) {
     super(props);
 
+    console.log(props)
     let editorState = EditorState.createEmpty();
     let name = "";
-    let price = 0;
     let imageLinks = [];
     let shortDescription = "";
     let subcategories = [];
+    let generic = true;
+    let quantity = 0;
+    let codes = [""];
+
 
     if (props.product) {
       console.log(props.product);
       name = props.product.name ? props.product.name : "";
-      price = props.product.price ? props.product.price : 0;
-      shortDescription = props.product.shortDescription
-        ? props.product.shortDescription
-        : "";
+      shortDescription = props.product.shortDescription ? props.product.shortDescription : "";
       imageLinks = props.product.imageLinks ? props.product.imageLinks : [];
-
-      subcategories = props.product.subcategories
-        ? props.product.subcategories.map(subcategory => subcategory._id)
-        : [];
+      subcategories = props.product.subcategories ? props.product.subcategories.map(subcategory => subcategory._id) : [];
+      quantity = props.product.quantity ? props.product.quantity : 0;
+      generic =  !isNullOrUndefined(props.product.generic) ? props.product.generic : true;
+      codes = props.product.codes ? [...props.product.codes, ""] : [""];
 
       //editor
       const html = props.product.description;
       const contentBlock = htmlToDraft(html);
       if (contentBlock) {
-        const contentState = ContentState.createFromBlockArray(
-          contentBlock.contentBlocks
-        );
+        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
         editorState = EditorState.createWithContent(contentState);
       }
     }
 
     this.state = {
       name,
-      price,
       shortDescription,
       editorState,
       imageLinks,
       subcategories,
+      quantity,
+      generic,
+      codes,
       uploadingImages: false
     };
   }
@@ -75,29 +80,36 @@ export class Form extends Component {
     });
   };
 
-  changeNameHandler = event => {
+  changeHandler = (name, event) => {
     this.setState({
-      name: event.target.value
+      [name]: event.target.value
     });
   };
 
-  changePriceHandler = event => {
+  changeCheckboxHandler = (name, event) => {
     this.setState({
-      price: +event.target.value
+      [name]: event.target.checked
     });
   };
 
-  changeSubnameHandler = event => {
-    this.setState({
-      subname: event.target.value
-    });
-  };
+  changeCodesHandler = (index, event) => {
+    let codes = [...this.state.codes];
 
-  changeShortDescriptionHandler = event => {
+    if (codes[index] === "") {
+      codes.push("")
+    }
+
+    codes[index] = event.target.value;
+
+    if (codes[index] === "") {
+      codes.splice(index, 1)
+    }
+
     this.setState({
-      shortDescription: event.target.value
-    });
-  };
+      codes
+    })
+  }
+
 
   changeImageHandler = event => {
     this.setState({ uploadingImages: true });
@@ -139,21 +151,35 @@ export class Form extends Component {
     event.preventDefault();
 
     const name = this.state.name;
-    const price = this.state.price;
 
-    if (name === "" || price < 0) {
+    if (name === "") {
       return;
     }
 
+    const generic = this.state.generic;
+    let quantity = this.state.quantity;
+    let codes = this.state.codes;
+
+    if (generic) {
+      codes = null;
+    }
+    else {
+      codes.pop();
+      quantity = codes.length;
+    }
+
+
     let product = {
       name,
-      price,
+      generic,
+      quantity,
+      codes,
       imageLinks: this.state.imageLinks,
       shortDescription: this.state.shortDescription,
       subcategories: this.state.subcategories,
       description: draftToHtml(
         convertToRaw(this.state.editorState.getCurrentContent())
-      )
+      ),
     };
 
     if (this.props.product) {
@@ -167,153 +193,152 @@ export class Form extends Component {
     const { classes } = this.props;
     return (
       <form className="product-form" onSubmit={this.onSubmitHandler}>
-        <Grid container spacing={24} justify="center">
-          <Grid item xs={8}>
-            <TextField
-              required
-              autoFocus
-              className={classes.textfield}
-              margin="dense"
-              label="Nombre"
-              type="text"
-              fullWidth
-              value={this.state.name}
-              onChange={this.changeNameHandler}
-              error={this.state.name === ""}
-              helperText={this.state.name === "" ? "Valor Requerido" : ""}
-            />
-          </Grid>
 
-          <Grid item xs={4}>
-            <TextField
-              required
-              autoFocus
-              className={classes.textfield}
-              margin="dense"
-              label="Precio"
-              type="number"
-              fullWidth
-              value={this.state.price}
-              onChange={this.changePriceHandler}
-              error={this.state.price < 0}
-              helperText={
-                this.state.price < 0
-                  ? "El precio debe ser un número positivo"
-                  : ""
-              }
-              InputProps={{
-                inputProps: { min: 0, max: 100000, step: 0.01 },
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                )
-              }}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.generic}
+              onChange={this.changeCheckboxHandler.bind(this, 'generic')}
+              value="generic"
             />
-          </Grid>
+          }
+          label="Producto genérico"
+        />
 
-          {/* image */}
-          <Grid item xs={12}>
-            <div className={classes.center}>
-              <input
-                accept="image/*"
-                onChange={this.changeImageHandler}
-                className={classes.input}
-                id="contained-button-file"
-                type="file"
-                multiple={true}
-              />
-              <label htmlFor="contained-button-file">
-                <Button
-                  variant="contained"
-                  component="span"
-                  className={classes.button}
-                >
-                  Subir Imagenes
+        <TextField
+          required
+          autoFocus
+          className={classes.textfield}
+          margin="dense"
+          label="Nombre"
+          type="text"
+          fullWidth
+          value={this.state.name}
+          onChange={this.changeHandler.bind(this, 'name')}
+          error={this.state.name === ""}
+          helperText={this.state.name === "" ? "Valor Requerido" : ""}
+        />
+
+        {this.state.generic && <TextField
+          required
+          autoFocus
+          className={classes.textfield}
+          margin="dense"
+          label="Cantidad"
+          type="number"
+          fullWidth
+          value={this.state.quantity}
+          onChange={this.changeHandler.bind(this, "quantity")}
+          error={this.state.quantity < 0}
+          helperText={this.state.quantity < 0 ? "La cantidad debe ser un número positivo" : ""}
+        />}
+
+        {!this.state.generic &&
+          <div className={classes.textfield}>
+            <InputLabel>Códigos del producto</InputLabel>
+            {this.state.codes.map((code, index) => {
+              return (
+                <Input fullWidth key={index} value={code} onChange={this.changeCodesHandler.bind(this, index)} />
+              );
+            })}
+          </div>
+        }
+
+        {/* image */}
+        <div className={classes.center}>
+          <input
+            accept="image/*"
+            onChange={this.changeImageHandler}
+            className={classes.input}
+            id="contained-button-file"
+            type="file"
+            multiple={true}
+          />
+          <label htmlFor="contained-button-file">
+            <Button
+              variant="contained"
+              component="span"
+              className={classes.button}
+            >
+              Subir Imagenes
                 </Button>
-              </label>
+          </label>
 
-              {this.state.imageLinks && (
-                <div className={classes.imgContainer}>
-                  {this.state.uploadingImage ? (
-                    <Spinner />
-                  ) : (
-                    this.state.imageLinks.map(imageLink => (
-                      <img
-                        height={100}
-                        key={imageLink}
-                        className={classes.img}
-                        src={imageLink}
-                        alt="producto"
-                      />
-                    ))
-                  )}
-                </div>
-              )}
-            </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              className={classes.textfield}
-              margin="dense"
-              label="Descripción corta"
-              type="text"
-              fullWidth
-              value={this.state.shortDescription}
-              onChange={this.changeShortDescriptionHandler}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Query query={GET_SUBCATEGORIES}>
-              {({ loading, error, data }) => {
-                if (loading) return <Spinner />;
-                if (error) return <p>Error :( recarga la página!</p>;
-
-                const options = data.subcategories.map(subcategory => {
-                  return { value: subcategory._id, label: subcategory.name };
-                });
-
-                return (
-                  <div className={classes.textfield}>
-                    <InputLabel shrink htmlFor="subcategories">
-                      Subcategorias
-                    </InputLabel>
-                    <Select
-                      id="subcategories"
-                      value={options.filter(option =>
-                        this.state.subcategories.includes(option.value)
-                      )}
-                      onChange={this.changeSubcategoriesHandler}
-                      options={options}
-                      isMulti
+          {this.state.imageLinks && (
+            <div className={classes.imgContainer}>
+              {this.state.uploadingImage ? (
+                <Spinner />
+              ) : (
+                  this.state.imageLinks.map(imageLink => (
+                    <img
+                      height={100}
+                      key={imageLink}
+                      className={classes.img}
+                      src={imageLink}
+                      alt="producto"
                     />
-                  </div>
-                );
-              }}
-            </Query>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className={classes.textfield}>
-              <FormLabel
-                required
-                error={!this.state.editorState.getCurrentContent().hasText()}
-              >
-                Características del producto
-              </FormLabel>
-              <Editor
-                editorState={this.state.editorState}
-                wrapperClassName={classes.wrapper}
-                editorClassName={classes.editor}
-                onEditorStateChange={this.onEditorStateChange}
-              />
+                  ))
+                )}
             </div>
-          </Grid>
+          )}
+        </div>
 
-          <Button type="submit" variant="contained" color="primary" autoFocus>
-            Guardar
+        <TextField
+          className={classes.textfield}
+          margin="dense"
+          label="Descripción corta"
+          type="text"
+          fullWidth
+          value={this.state.shortDescription}
+          onChange={this.changeHandler.bind(this, "shortDescription")}
+        />
+
+        <Query query={GET_SUBCATEGORIES}>
+          {({ loading, error, data }) => {
+            if (loading) return <Spinner />;
+            if (error) return <p>Error :( recarga la página!</p>;
+
+            const options = data.subcategories.map(subcategory => {
+              return { value: subcategory._id, label: subcategory.name };
+            });
+
+            return (
+              <div className={classes.textfield}>
+                <InputLabel shrink htmlFor="subcategories">
+                  Subcategorias
+                    </InputLabel>
+                <Select
+                  id="subcategories"
+                  value={options.filter(option =>
+                    this.state.subcategories.includes(option.value)
+                  )}
+                  onChange={this.changeSubcategoriesHandler}
+                  options={options}
+                  isMulti
+                />
+              </div>
+            );
+          }}
+        </Query>
+
+        <div className={classes.textfield}>
+          <FormLabel
+            required
+            error={!this.state.editorState.getCurrentContent().hasText()}
+          >
+            Características del producto
+              </FormLabel>
+          <Editor
+            editorState={this.state.editorState}
+            wrapperClassName={classes.wrapper}
+            editorClassName={classes.editor}
+            onEditorStateChange={this.onEditorStateChange}
+          />
+        </div>
+
+        <Button type="submit" variant="contained" color="primary" autoFocus>
+          Guardar
           </Button>
-        </Grid>
       </form>
     );
   }

@@ -5,10 +5,12 @@ export const GET_PRODUCT = gql`
     product(id: $id) {
       _id
       name
-      price
       imageLinks
       shortDescription
       description
+      quantity
+      generic
+      codes
       subcategories {
         _id
       }
@@ -21,10 +23,12 @@ export const GET_PRODUCTS = gql`
     products {
       _id
       name
-      price
       imageLinks
       shortDescription
       description
+      quantity
+      generic
+      codes
     }
   }
 `;
@@ -32,20 +36,24 @@ export const GET_PRODUCTS = gql`
 export const ADD_PRODUCT = gql`
   mutation CreateProduct(
     $name: String
-    $price: Float
     $imageLinks: [String]
     $shortDescription: String
     $description: String
     $subcategories: [ID]
+    $quantity: Int
+    $generic: Boolean
+    $codes: [String]
   ) {
     createProduct(
       productInput: {
         name: $name
-        price: $price
         imageLinks: $imageLinks
         shortDescription: $shortDescription
         description: $description
         subcategories: $subcategories
+        quantity: $quantity
+        generic: $generic
+        codes: $codes
       }
     ) {
       _id
@@ -54,6 +62,9 @@ export const ADD_PRODUCT = gql`
       imageLinks
       shortDescription
       description
+      quantity
+      generic
+      codes
     }
   }
 `;
@@ -62,29 +73,35 @@ export const EDIT_PRODUCT = gql`
   mutation UpdateProduct(
     $id: ID!
     $name: String
-    $price: Float
     $imageLinks: [String]
     $shortDescription: String
     $description: String
     $subcategories: [ID]
+    $quantity: Int
+    $generic: Boolean
+    $codes: [String]
   ) {
     updateProduct(
       id: $id
       productInput: {
         name: $name
-        price: $price
         imageLinks: $imageLinks
         shortDescription: $shortDescription
         description: $description
         subcategories: $subcategories
+        quantity: $quantity
+        generic: $generic
+        codes: $codes
       }
     ) {
       _id
       name
-      price
       imageLinks
       shortDescription
       description
+      quantity
+      generic
+      codes
     }
   }
 `;
