@@ -13,9 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
 import EventIcon from "@material-ui/icons/Event";
 import { NavLink } from "react-router-dom";
-import logo120w from "../../assets/images/logos/logo-120w.png";
-
-
+import whiteLogo120w from "../../assets/images/logos/logo-blanco-120w.png";
 
 const drawerWidth = 241;
 
@@ -59,7 +57,7 @@ const ResponsiveDrawer = props => {
     <div>
       <div className={classes.toolbar}>
         <NavLink to="/" className={classes.drawerTitle} exact>
-          <img style={{ marginRight: '1rem', width: '90%' }} src={logo120w} alt="logo" />
+          <img style={{ width: '80%' }} src={whiteLogo120w} alt="logo" />
           {/* <Typography variant="h6" color="inherit">
             CYDCOM
           </Typography> */}

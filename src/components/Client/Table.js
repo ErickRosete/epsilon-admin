@@ -38,8 +38,9 @@ const ClientTable = (props) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Nombre de Cliente</TableCell>
-                        <TableCell>Email de Cliente</TableCell>
+                        <TableCell>Nombre</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Empresa</TableCell>
                         <TableCell align="right">acciones</TableCell>
                     </TableRow>
                 </TableHead>
@@ -51,6 +52,9 @@ const ClientTable = (props) => {
                             </TableCell>
                             <TableCell component="th" scope="row">
                                 {row.email}
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                {row.company}
                             </TableCell>
                             <TableCell align="right">
                                 <Button

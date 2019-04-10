@@ -10,20 +10,22 @@ export class FormDialog extends Component {
   constructor(props) {
     super(props);
 
-    let name = "";
     let email = "";
+    let name = "";
+    let company = "";
     let phone = "";
-    let detail = "";
+    let address = "";
 
     if (props.client) {
       name = props.client.name ? props.client.name : "";
+      company = props.client.company ? props.client.company : "";
       email = props.client.email ? props.client.email : "";
       phone = props.client.phone ? props.client.phone : "";
-      detail = props.client.detail ? props.client.detail : "";
+      address = props.client.address ? props.client.address : "";
     }
 
     this.state = {
-      name, email, phone, detail
+      name, email, phone, company, address
     }
   }
 
@@ -42,9 +44,10 @@ export class FormDialog extends Component {
     //grouping info
     let client = {
       name: this.state.name,
+      company: this.state.company,
       email: this.state.email,
       phone: this.state.phone,
-      detail: this.state.detail
+      address: this.state.address
     }
 
     //adding id in edit
@@ -67,6 +70,21 @@ export class FormDialog extends Component {
         </DialogTitle>
 
         <DialogContent style={{ minHeight: '50vh' }}>
+
+          <TextField
+            required
+            autoFocus
+            margin="normal"
+            label="Correo electrónico"
+            type="email"
+            autoComplete="email"
+            fullWidth
+            value={this.state.email}
+            onChange={this.changeHandler.bind(this, "email")}
+            error={this.state.email === ""}
+            helperText={this.state.email === "" ? "Valor Requerido" : ""}
+          />
+
           <TextField
             required
             autoFocus
@@ -83,11 +101,11 @@ export class FormDialog extends Component {
           <TextField
             autoFocus
             margin="normal"
-            label="Correo electrónico"
+            label="Empresa"
             type="text"
             fullWidth
-            value={this.state.email}
-            onChange={this.changeHandler.bind(this, "email")}
+            value={this.state.company}
+            onChange={this.changeHandler.bind(this, "company")}
           />
 
           <TextField
@@ -103,11 +121,11 @@ export class FormDialog extends Component {
           <TextField
             autoFocus
             margin="normal"
-            label="Detalle"
+            label="Dirección"
             type="text"
             fullWidth
-            value={this.state.detail}
-            onChange={this.changeHandler.bind(this, "detail")}
+            value={this.state.address}
+            onChange={this.changeHandler.bind(this, "address")}
           />
 
         </DialogContent>

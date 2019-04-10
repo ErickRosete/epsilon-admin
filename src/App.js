@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 //theme
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { brown, red } from "@material-ui/core/colors";
+import { blueGrey, red } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 
@@ -78,7 +78,7 @@ class App extends Component {
     // }
     const theme = createMuiTheme({
       palette: {
-        primary: brown,
+        primary: blueGrey,
         secondary: red
       },
       typography: {

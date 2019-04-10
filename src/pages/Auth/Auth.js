@@ -80,7 +80,7 @@ class AuthPage extends Component {
               className={classes.image}
               src={logo250w}
               srcSet={`${logo120w} 120w, ${logo250w} 250w, ${logo500w} 500w`}
-              alt="Renta-Compu-Logo"
+              alt="Epsilon-Logo"
             />
             {/* <Typography variant="h3" color="inherit">
               Renta-Compu

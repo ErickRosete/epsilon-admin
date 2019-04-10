@@ -41,7 +41,7 @@ export const styles = theme => ({
   image: {
     width: "100%",
     backgroundColor: theme.palette.primary.main,
-    padding: '1rem',
+    // padding: '1rem',
     borderRadius: '3px'
   }
 });
