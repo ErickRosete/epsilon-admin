@@ -50,6 +50,7 @@ const ResponsiveDrawer = props => {
     { id: 30, icon: <EventIcon />, text: "Productos", linkTo: "/product" },
     { id: 40, icon: <EventIcon />, text: "Promociones", linkTo: "/promotion" },
     { id: 50, icon: <EventIcon />, text: "Clientes", linkTo: "/client" },
+    { id: 60, icon: <EventIcon />, text: "Cotizaciones", linkTo: "/quotation" }
   ];
 
   const { classes, theme } = props;

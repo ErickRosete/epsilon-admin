@@ -18,6 +18,7 @@ import AddressesPage from "./pages/Address/Addresses";
 import AddressFormPage from "./pages/Address/Form/AddressForm";
 import PromotionPage from "./pages/Promotion/Promotion";
 import ClientPage from "./pages/Client/Client";
+import QuotationPage from "./pages/Quotation/Quotation";
 
 //Providers and context
 import { ApolloProvider } from "react-apollo";
@@ -112,6 +113,7 @@ class App extends Component {
                   <Route path="/profile/:id/addresses" component={AddressesPage} />
                   <Route path="/promotion" component={PromotionPage} />
                   <Route path="/client" component={ClientPage} />
+                  <Route path="/quotation" component={QuotationPage} />
                   <Redirect to="/product" />
                 </Switch>) :
                 (<Switch>
