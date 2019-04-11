@@ -37,7 +37,7 @@ const DetailDialog = props => {
           {productQuotations.map((productQuotation) => {
             return (
               <div key={productQuotation._id} style={{ display: 'flex' }}>
-                <div style={{marginRight:'1rem'}}>
+                <div style={{ marginRight: '1rem' }}>
                   <img width={100} src={productQuotation.product.imageLinks[0]} alt={productQuotation.product.name}></img>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
