@@ -13,12 +13,11 @@ import CategoryPage from "./pages/Category/Category";
 import SubcategoryPage from "./pages/Subcategory/Subcategory";
 import ProductPage from "./pages/Product/Product";
 import ProductFormPage from "./pages/Product/Form/ProductForm";
-import AddressPage from "./pages/Address/Address";
-import AddressesPage from "./pages/Address/Addresses";
-import AddressFormPage from "./pages/Address/Form/AddressForm";
 import PromotionPage from "./pages/Promotion/Promotion";
 import ClientPage from "./pages/Client/Client";
 import QuotationPage from "./pages/Quotation/Quotation";
+import RentPage from "./pages/Rent/Rent";
+import RentFormPage from "./pages/Rent/Form/RentForm"
 
 //Providers and context
 import { ApolloProvider } from "react-apollo";
@@ -46,11 +45,6 @@ class App extends Component {
   }
 
   login = (token, userId, tokenExpiration, role) => {
-
-    // https://medium.com/@rajaraodv/securing-react-redux-apps-with-jwt-tokens-fcfe81356ea0
-    //If you use localStorage instead of sessionStorage, then this will persist across tabs and new windows.
-    //sessionStorage = persists only in current tab
-    // https://stackoverflow.com/questions/15171711/expiry-of-sessionstorage
     console.log(`tokenExpiration: ${tokenExpiration}`)
     console.log(`role: ${role}`)
 
@@ -72,11 +66,6 @@ class App extends Component {
   };
 
   render() {
-    // if (this.state.token) {
-    //   console.log("yey");
-    // } else {
-    //   console.log("wtf");
-    // }
     const theme = createMuiTheme({
       palette: {
         primary: blueGrey,
@@ -107,14 +96,13 @@ class App extends Component {
                   <Route path="/product/add" component={ProductFormPage} />
                   <Route path="/product/edit/:id" component={ProductFormPage} />
                   <Route path="/product" component={ProductPage} />
-                  <Route path="/address/add" component={AddressFormPage} />
-                  <Route path="/address/edit/:id" component={AddressFormPage} />
-                  <Route path="/address" component={AddressPage} />
-                  <Route path="/profile/:id/addresses" component={AddressesPage} />
                   <Route path="/promotion" component={PromotionPage} />
                   <Route path="/client" component={ClientPage} />
                   <Route path="/quotation" component={QuotationPage} />
-                  <Redirect to="/product" />
+                  <Route path="/rent/add" component={RentFormPage} />
+                  <Route path="/rent/edit/:id" component={RentFormPage} />
+                  <Route path="/rent" component={RentPage} />
+                  <Redirect to="/quotation" />
                 </Switch>) :
                 (<Switch>
                   <Route path="/auth" component={AuthPage} />

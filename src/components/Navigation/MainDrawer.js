@@ -11,7 +11,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
-import EventIcon from "@material-ui/icons/Event";
+import CategoryIcon from "@material-ui/icons/List";
+import SubcategoryIcon from "@material-ui/icons/ListAlt";
+import ProductIcon from "@material-ui/icons/Laptop";
+import PromotionIcon from "@material-ui/icons/AttachMoney";
+import ClientIcon from "@material-ui/icons/AccountCircle";
+import QuotationIcon from "@material-ui/icons/Ballot"
+import RentIcon from "@material-ui/icons/Event";
 import { NavLink } from "react-router-dom";
 import whiteLogo120w from "../../assets/images/logos/logo-blanco-120w.png";
 
@@ -45,12 +51,13 @@ const styles = theme => ({
 
 const ResponsiveDrawer = props => {
   const sideLinks = [
-    { id: 10, icon: <EventIcon />, text: "Categorias", linkTo: "/category" },
-    { id: 20, icon: <EventIcon />, text: "Subcategorias", linkTo: "/subcategory" },
-    { id: 30, icon: <EventIcon />, text: "Productos", linkTo: "/product" },
-    { id: 40, icon: <EventIcon />, text: "Promociones", linkTo: "/promotion" },
-    { id: 50, icon: <EventIcon />, text: "Clientes", linkTo: "/client" },
-    { id: 60, icon: <EventIcon />, text: "Cotizaciones", linkTo: "/quotation" }
+    { id: 10, icon: <CategoryIcon />, text: "Categorias", linkTo: "/category" },
+    { id: 20, icon: <SubcategoryIcon />, text: "Subcategorias", linkTo: "/subcategory" },
+    { id: 30, icon: <ProductIcon />, text: "Productos", linkTo: "/product" },
+    { id: 40, icon: <PromotionIcon />, text: "Promociones", linkTo: "/promotion" },
+    { id: 50, icon: <ClientIcon />, text: "Clientes", linkTo: "/client" },
+    { id: 60, icon: <QuotationIcon />, text: "Cotizaciones", linkTo: "/quotation" },
+    { id: 70, icon: <RentIcon />, text: "Rentas", linkTo: "/rent" }
   ];
 
   const { classes, theme } = props;
