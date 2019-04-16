@@ -11,9 +11,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
-import CategoryIcon from "@material-ui/icons/List";
+// import CategoryIcon from "@material-ui/icons/List";
 import SubcategoryIcon from "@material-ui/icons/ListAlt";
 import ProductIcon from "@material-ui/icons/Laptop";
+import AccessoryIcon from "@material-ui/icons/Mouse"
 import PromotionIcon from "@material-ui/icons/AttachMoney";
 import ClientIcon from "@material-ui/icons/AccountCircle";
 import QuotationIcon from "@material-ui/icons/Ballot"
@@ -51,9 +52,10 @@ const styles = theme => ({
 
 const ResponsiveDrawer = props => {
   const sideLinks = [
-    { id: 10, icon: <CategoryIcon />, text: "Categorias", linkTo: "/category" },
+    // { id: 10, icon: <CategoryIcon />, text: "Categorias", linkTo: "/category" },
     { id: 20, icon: <SubcategoryIcon />, text: "Subcategorias", linkTo: "/subcategory" },
     { id: 30, icon: <ProductIcon />, text: "Productos", linkTo: "/product" },
+    { id: 35, icon: <AccessoryIcon />, text: "Accesorios", linkTo: "/accessory" },
     { id: 40, icon: <PromotionIcon />, text: "Promociones", linkTo: "/promotion" },
     { id: 50, icon: <ClientIcon />, text: "Clientes", linkTo: "/client" },
     { id: 60, icon: <QuotationIcon />, text: "Cotizaciones", linkTo: "/quotation" },

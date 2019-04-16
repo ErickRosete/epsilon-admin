@@ -13,6 +13,7 @@ import CategoryPage from "./pages/Category/Category";
 import SubcategoryPage from "./pages/Subcategory/Subcategory";
 import ProductPage from "./pages/Product/Product";
 import ProductFormPage from "./pages/Product/Form/ProductForm";
+import AccessoryPage from "./pages/Accessory/Accessory";
 import PromotionPage from "./pages/Promotion/Promotion";
 import ClientPage from "./pages/Client/Client";
 import QuotationPage from "./pages/Quotation/Quotation";
@@ -96,6 +97,7 @@ class App extends Component {
                   <Route path="/product/add" component={ProductFormPage} />
                   <Route path="/product/edit/:id" component={ProductFormPage} />
                   <Route path="/product" component={ProductPage} />
+                  <Route path="/accessory" component={AccessoryPage} />
                   <Route path="/promotion" component={PromotionPage} />
                   <Route path="/client" component={ClientPage} />
                   <Route path="/quotation" component={QuotationPage} />

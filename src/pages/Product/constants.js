@@ -8,11 +8,16 @@ export const GET_PRODUCT = gql`
       imageLinks
       shortDescription
       description
-      quantity
-      generic
+      currentQuantity
+      totalQuantity
       codes
       subcategories {
         _id
+        name
+      }
+      accessories {
+        _id
+        name
       }
     }
   }
@@ -26,8 +31,8 @@ export const GET_PRODUCTS = gql`
       imageLinks
       shortDescription
       description
-      quantity
-      generic
+      currentQuantity
+      totalQuantity
       codes
     }
   }
@@ -40,9 +45,11 @@ export const ADD_PRODUCT = gql`
     $shortDescription: String
     $description: String
     $subcategories: [ID]
-    $quantity: Int
-    $generic: Boolean
+    $accessories: [ID]
+    $currentQuantity: Int
+    $totalQuantity: Int
     $codes: [String]
+    $deleted: Boolean
   ) {
     createProduct(
       productInput: {
@@ -51,9 +58,11 @@ export const ADD_PRODUCT = gql`
         shortDescription: $shortDescription
         description: $description
         subcategories: $subcategories
-        quantity: $quantity
-        generic: $generic
+        currentQuantity: $currentQuantity
+        totalQuantity: $totalQuantity
+        accessories: $accessories
         codes: $codes
+        deleted: $deleted
       }
     ) {
       _id
@@ -62,8 +71,8 @@ export const ADD_PRODUCT = gql`
       imageLinks
       shortDescription
       description
-      quantity
-      generic
+      currentQuantity
+      totalQuantity
       codes
     }
   }
@@ -77,8 +86,9 @@ export const EDIT_PRODUCT = gql`
     $shortDescription: String
     $description: String
     $subcategories: [ID]
-    $quantity: Int
-    $generic: Boolean
+    $accessories: [ID]
+    $currentQuantity: Int
+    $totalQuantity: Int
     $codes: [String]
   ) {
     updateProduct(
@@ -89,8 +99,9 @@ export const EDIT_PRODUCT = gql`
         shortDescription: $shortDescription
         description: $description
         subcategories: $subcategories
-        quantity: $quantity
-        generic: $generic
+        currentQuantity: $currentQuantity
+        totalQuantity: $totalQuantity
+        accessories: $accessories
         codes: $codes
       }
     ) {
@@ -99,8 +110,8 @@ export const EDIT_PRODUCT = gql`
       imageLinks
       shortDescription
       description
-      quantity
-      generic
+      currentQuantity
+      totalQuantity
       codes
     }
   }
