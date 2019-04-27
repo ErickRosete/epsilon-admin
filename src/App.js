@@ -18,6 +18,7 @@ import PromotionPage from "./pages/Promotion/Promotion";
 import ClientPage from "./pages/Client/Client";
 import QuotationPage from "./pages/Quotation/Quotation";
 import RentPage from "./pages/Rent/Rent";
+import InventoryPage from "./pages/Inventory/Inventory";
 import RentFormPage from "./pages/Rent/Form/RentForm"
 
 //Providers and context
@@ -104,6 +105,7 @@ class App extends Component {
                   <Route path="/rent/add" component={RentFormPage} />
                   <Route path="/rent/edit/:id" component={RentFormPage} />
                   <Route path="/rent" component={RentPage} />
+                  <Route path="/inventory" component={InventoryPage} />
                   <Redirect to="/quotation" />
                 </Switch>) :
                 (<Switch>

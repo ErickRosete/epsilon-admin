@@ -34,6 +34,10 @@ export const GET_PRODUCTS = gql`
       currentQuantity
       totalQuantity
       codes
+      accessories {
+        _id
+        name
+      }
     }
   }
 `;
@@ -67,13 +71,16 @@ export const ADD_PRODUCT = gql`
     ) {
       _id
       name
-      price
       imageLinks
       shortDescription
       description
       currentQuantity
       totalQuantity
       codes
+      accessories {
+        _id
+        name
+      }
     }
   }
 `;
@@ -113,6 +120,9 @@ export const EDIT_PRODUCT = gql`
       currentQuantity
       totalQuantity
       codes
+      accessories {
+        _id
+      }
     }
   }
 `;

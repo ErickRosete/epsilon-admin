@@ -38,6 +38,7 @@ export class FormDialog extends Component {
     this.setState({ uploadingImage: true });
 
     var formData = new FormData();
+    formData.append("folder", "subCategoryImages");
     formData.append("file", event.target.files[0]);
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImage`, {
@@ -84,7 +85,7 @@ export class FormDialog extends Component {
 
   render() {
     const classes = this.props.classes;
-
+    
     return (
       <Dialog
         open={this.props.open}
@@ -138,6 +139,11 @@ export class FormDialog extends Component {
                 </Button>
             </label>
 
+            {this.state.uploadingImage ? (
+                  <Spinner />): (
+                   <p></p>
+            )}
+            
             {this.state.imageLink && (
               <div className={classes.imgContainer}>
                 {this.state.uploadingImage ? (

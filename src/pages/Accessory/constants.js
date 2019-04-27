@@ -6,6 +6,7 @@ export const GET_ACCESSORIES = gql`
     accessories {
       _id
       name
+      code
       currentQuantity
       totalQuantity
     }
@@ -13,10 +14,11 @@ export const GET_ACCESSORIES = gql`
 `;
 
 export const ADD_ACCESSORY = gql`
-  mutation CreateAccessory($name: String!, $totalQuantity: Int, $currentQuantity: Int, $deleted: Boolean) {
-    createAccessory(accessoryInput: {name: $name, totalQuantity: $totalQuantity, currentQuantity: $currentQuantity, deleted: $deleted}) {
+  mutation CreateAccessory($name: String!,$code:String!, $totalQuantity: Int, $currentQuantity: Int, $deleted: Boolean) {
+    createAccessory(accessoryInput: {name: $name,code :$code totalQuantity: $totalQuantity, currentQuantity: $currentQuantity, deleted: $deleted}) {
       _id
       name
+      code
       currentQuantity
       totalQuantity
     }
@@ -24,13 +26,14 @@ export const ADD_ACCESSORY = gql`
 `;
 
 export const EDIT_ACCESSORY = gql`
-  mutation UpdateAccessory($id: ID!, $name: String!, $totalQuantity: Int, $currentQuantity: Int, $deleted: Boolean) {
+  mutation UpdateAccessory($id: ID!, $name: String!, $code:String!, $totalQuantity: Int, $currentQuantity: Int, $deleted: Boolean) {
     updateAccessory(
       id: $id
-      accessoryInput: { name: $name, totalQuantity: $totalQuantity, currentQuantity: $currentQuantity, deleted: $deleted }
+      accessoryInput: { name: $name,code:$code, totalQuantity: $totalQuantity, currentQuantity: $currentQuantity, deleted: $deleted }
     ) {
       _id
       name
+      code
       currentQuantity
       totalQuantity
     }

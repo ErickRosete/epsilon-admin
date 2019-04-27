@@ -33,11 +33,16 @@ class ProductFormPage extends Component {
               if (loading) return <Spinner />;
               if (error) return <p>Error :( recarga la página!</p>;
               return (
-                <Mutation mutation={EDIT_PRODUCT} >
+                <Mutation 
+                mutation={EDIT_PRODUCT}  >
+                
                   {updateProduct => (
                     <Form
                       product={data.product}
                       onSubmit={product => {
+                        console.log("Edited product")
+                        console.log(product)
+    
                         updateProduct({
                           variables: { ...product }
                         });
@@ -54,17 +59,26 @@ class ProductFormPage extends Component {
             <Mutation
               mutation={ADD_PRODUCT}
               update={(cache, { data: { createProduct } }) => {
+                function add(myArray,addedValue) {
+                  return myArray.concat(addedValue)
+              }
                 const { products } = cache.readQuery({ query: GET_PRODUCTS });
-                products.push(createProduct);
+                //does not update
+                // products.push(createProduct);
                 cache.writeQuery({
                   query: GET_PRODUCTS,
-                  data: { products }
+                  //does not update
+                  // data: { products }
+                  data: { products: add(products,createProduct) }
+
                 });
               }}
             >
               {createProduct => (
                 <Form
                   onSubmit={product => {
+                    console.log("submitted product")
+                    console.log(product)
                     createProduct({
                       variables: { ...product }
                     });

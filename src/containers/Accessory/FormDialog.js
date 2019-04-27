@@ -12,14 +12,16 @@ export class FormDialog extends Component {
 
     let name = "";
     let totalQuantity = 1;
-
+    let code ="";
     if (props.accessory) {
       name = props.accessory.name ? props.accessory.name : "";
       totalQuantity = props.accessory.totalQuantity ? props.accessory.totalQuantity : 1;
+      code = props.accessory.code ? props.accessory.code : "";
+
     }
 
     this.state = {
-      name, totalQuantity
+      name, totalQuantity,code
     }
   }
 
@@ -70,6 +72,16 @@ export class FormDialog extends Component {
             onChange={this.changeHandler.bind(this, "name")}
             error={this.state.name === ""}
             helperText={this.state.name === "" ? "Valor Requerido" : ""}
+          />
+            <TextField
+            required
+            autoFocus
+            margin="normal"
+            label="Código"
+            type="text"
+            fullWidth
+            value={this.state.code}
+            onChange={this.changeHandler.bind(this, "code")}
           />
           <TextField
             autoFocus

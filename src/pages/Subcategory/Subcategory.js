@@ -17,6 +17,7 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteDialog from "../../components/Dialog/DeleteDialog";
 import FormDialog from "../../containers/Subcategory/FormDialog";
 
+
 //graphql
 import { Query, Mutation } from "react-apollo";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -28,6 +29,7 @@ export class SubcategoryPage extends Component {
         openEditDialog: false,
         openAddDialog: false,
         selectedSubcategory: { _id: "" },
+        uploading:false,
     };
 
     handleClickOpenDeleteDialog = subcategory => {
@@ -81,15 +83,23 @@ export class SubcategoryPage extends Component {
                     <Mutation
                         mutation={DELETE_SUBCATEGORY}
                         update={(cache, { data: { deleteSubcategory } }) => {
+                            function spliceNoMutate(myArray,indexToRemove) {
+                                return myArray.slice(0,indexToRemove).concat(myArray.slice(indexToRemove+1));
+                            }
                             const { subcategories } = cache.readQuery({ query: GET_SUBCATEGORIES });
+                            console.log(subcategories)
                             const subcategoryIndex = subcategories.findIndex(
                                 subcategory => subcategory._id === deleteSubcategory._id
                             );
-                            subcategories.splice(subcategoryIndex, 1);
+                            //does not update
+                            // subcategories.splice(subcategoryIndex, 1);
                             cache.writeQuery({
                                 query: GET_SUBCATEGORIES,
-                                data: { subcategories }
+                                //does not update
+                                // data: { subcategories }
+                                data:{subcategories:spliceNoMutate(subcategories,subcategoryIndex)}
                             });
+                            console.log(cache)
                         }}
                     >
                         {deleteSubcategory => (
@@ -146,11 +156,19 @@ export class SubcategoryPage extends Component {
 
                     <Mutation mutation={ADD_SUBCATEGORY}
                         update={(cache, { data: { createSubcategory } }) => {
+                            // console.log(cache)
+                            // console.log(createSubcategory)
                             const { subcategories } = cache.readQuery({ query: GET_SUBCATEGORIES });
-                            subcategories.push(createSubcategory)
+                            function add(myArray,addedValue) {
+                                return myArray.concat(addedValue)
+                            }
+                            //does not update
+                            // subcategories.push(createSubcategory)
                             cache.writeQuery({
                                 query: GET_SUBCATEGORIES,
-                                data: { subcategories }
+                                //does not update
+                                //     data: { subcategories }
+                                data: { subcategories: add(subcategories,createSubcategory) }
                             });
                         }}>
                         {createSubcategory => (

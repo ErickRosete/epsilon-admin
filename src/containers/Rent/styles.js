@@ -41,6 +41,32 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
   },
+  //buscador de producto
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  //buscador producto textfield
+  margin: {
+    margin: theme.spacing.unit,
+  },
+  textField: {
+    flexBasis: 200,
+  },
+ 
 });
 
 export default styles;

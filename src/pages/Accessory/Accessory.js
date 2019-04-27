@@ -68,6 +68,8 @@ export class AccessoryPage extends Component {
           {/* GET */}
           <Query query={GET_ACCESSORIES}>
             {({ loading, error, data }) => {
+              console.log("accesorios")
+              console.log(data)
               if (loading)
                 return <Spinner />;
               if (error) return <p>Error :(</p>;
@@ -81,14 +83,20 @@ export class AccessoryPage extends Component {
           <Mutation
             mutation={DELETE_ACCESSORY}
             update={(cache, { data: { deleteAccessory } }) => {
+              function spliceNoMutate(myArray,indexToRemove) {
+                return myArray.slice(0,indexToRemove).concat(myArray.slice(indexToRemove+1));
+              }
               const { accessories } = cache.readQuery({ query: GET_ACCESSORIES });
               const accessoryIndex = accessories.findIndex(
                 accessory => accessory._id === deleteAccessory._id
               );
-              accessories.splice(accessoryIndex, 1);
+              // does not update
+              // accessories.splice(accessoryIndex, 1);
               cache.writeQuery({
                 query: GET_ACCESSORIES,
-                data: { accessories }
+                //does not update
+                // data: { accessories }
+                data:{accessories:spliceNoMutate(accessories ,accessoryIndex)}
               });
             }}
           >
@@ -144,13 +152,23 @@ export class AccessoryPage extends Component {
             <AddIcon />
           </Fab>
 
+
+
           <Mutation mutation={ADD_ACCESSORY}
             update={(cache, { data: { createAccessory } }) => {
+              function add(myArray,addedValue) {
+                return myArray.concat(addedValue)
+            }
+              console.log(createAccessory)
               const { accessories } = cache.readQuery({ query: GET_ACCESSORIES });
-              accessories.push(createAccessory)
+              //does not update
+              // accessories.push(createAccessory)
               cache.writeQuery({
                 query: GET_ACCESSORIES,
-                data: { accessories }
+                // does not update
+                // data: { accessories }
+                data: { accessories: add(accessories,createAccessory) }
+
               });
             }}>
             {createAccessory => (

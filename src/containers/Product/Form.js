@@ -29,7 +29,7 @@ import { GET_ACCESSORIES } from "../../pages/Accessory/constants";
 export class Form extends Component {
   constructor(props) {
     super(props);
-
+    console.log("paso1?")
     console.log(props)
     let editorState = EditorState.createEmpty();
     let name = "";
@@ -42,6 +42,7 @@ export class Form extends Component {
 
 
     if (props.product) {
+      console.log("paso2")
       console.log(props.product);
       name = props.product.name ? props.product.name : "";
       shortDescription = props.product.shortDescription ? props.product.shortDescription : "";
@@ -50,7 +51,8 @@ export class Form extends Component {
       accessories = props.product.accessories ? props.product.accessories.map(accessory => accessory._id) : [];
       totalQuantity = props.product.totalQuantity ? props.product.totalQuantity : 0;
       codes = props.product.codes ? [...props.product.codes, ""] : [""];
-
+      console.log("paso3")
+      console.log(accessories)
       //editor
       const html = props.product.description;
       const contentBlock = htmlToDraft(html);
@@ -114,6 +116,7 @@ export class Form extends Component {
     this.setState({ uploadingImages: true });
 
     var formData = new FormData();
+    formData.append("folder", "productImages");
     Array.from(event.target.files).forEach(image => {
       formData.append("files", image);
     });
@@ -229,6 +232,12 @@ export class Form extends Component {
                 </Button>
           </label>
 
+
+          {this.state.uploadingImage ? (
+            <Spinner />): (
+            <p></p>
+          )}
+
           {this.state.imageLinks && (
             <div className={classes.imgContainer}>
               {this.state.uploadingImage ? (
@@ -292,17 +301,26 @@ export class Form extends Component {
           {({ loading, error, data }) => {
             if (loading) return <Spinner />;
             if (error) return <p>Error :( recarga la página!</p>;
-
+            console.log("accesorios ")
+            console.log(data.accessories)
+            // return(<p>great</p>)
             const options = data.accessories.map(accessory => {
               return { value: accessory._id, label: accessory.name };
             });
-
+            console.log(options)
+            console.log("accesorios del producto ")
+            let filtrado=options.filter(option =>
+              this.state.accessories.includes(option.value)
+            )
+            console.log(filtrado)
             return (
               <div className={classes.textfield}>
-                <InputLabel shrink htmlFor="accessories">
+                <InputLabel shrink htmlFor="accessories"
+                >
                   Accesorios
                     </InputLabel>
                 <Select
+                
                   id="accessories"
                   value={options.filter(option =>
                     this.state.accessories.includes(option.value)

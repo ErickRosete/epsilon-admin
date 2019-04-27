@@ -19,6 +19,8 @@ import PromotionIcon from "@material-ui/icons/AttachMoney";
 import ClientIcon from "@material-ui/icons/AccountCircle";
 import QuotationIcon from "@material-ui/icons/Ballot"
 import RentIcon from "@material-ui/icons/Event";
+import InventoryIcon from "@material-ui/icons/ViewComfy";
+
 import { NavLink } from "react-router-dom";
 import whiteLogo120w from "../../assets/images/logos/logo-blanco-120w.png";
 
@@ -56,10 +58,11 @@ const ResponsiveDrawer = props => {
     { id: 20, icon: <SubcategoryIcon />, text: "Subcategorias", linkTo: "/subcategory" },
     { id: 30, icon: <ProductIcon />, text: "Productos", linkTo: "/product" },
     { id: 35, icon: <AccessoryIcon />, text: "Accesorios", linkTo: "/accessory" },
-    { id: 40, icon: <PromotionIcon />, text: "Promociones", linkTo: "/promotion" },
-    { id: 50, icon: <ClientIcon />, text: "Clientes", linkTo: "/client" },
-    { id: 60, icon: <QuotationIcon />, text: "Cotizaciones", linkTo: "/quotation" },
-    { id: 70, icon: <RentIcon />, text: "Rentas", linkTo: "/rent" }
+    { id: 40, icon: <InventoryIcon/>, text: "Inventario", linkTo: "/inventory" },
+    { id: 50, icon: <PromotionIcon />, text: "Promociones", linkTo: "/promotion" },
+    { id: 60, icon: <ClientIcon />, text: "Clientes", linkTo: "/client" },
+    { id: 70, icon: <QuotationIcon />, text: "Cotizaciones", linkTo: "/quotation" },
+    { id: 80, icon: <RentIcon />, text: "Rentas", linkTo: "/rent/add" }
   ];
 
   const { classes, theme } = props;

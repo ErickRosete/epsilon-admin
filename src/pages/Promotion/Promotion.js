@@ -80,14 +80,20 @@ export class PromotionPage extends Component {
                     <Mutation
                         mutation={DELETE_PROMOTION}
                         update={(cache, { data: { deletePromotion } }) => {
+                            function spliceNoMutate(myArray,indexToRemove) {
+                                return myArray.slice(0,indexToRemove).concat(myArray.slice(indexToRemove+1));
+                            }
                             const { promotions } = cache.readQuery({ query: GET_PROMOTIONS });
                             const promotionIndex = promotions.findIndex(
                                 promotion => promotion._id === deletePromotion._id
                             );
-                            promotions.splice(promotionIndex, 1);
+                            //does not update
+                            // promotions.splice(promotionIndex, 1);
                             cache.writeQuery({
                                 query: GET_PROMOTIONS,
-                                data: { promotions }
+                                // does not update
+                                // data: { promotions }
+                                data:{promotions:spliceNoMutate(promotions ,promotionIndex)}
                             });
                         }}
                     >
@@ -136,11 +142,17 @@ export class PromotionPage extends Component {
 
                     <Mutation mutation={ADD_PROMOTION}
                         update={(cache, { data: { createPromotion } }) => {
+                            function add(myArray,addedValue) {
+                                return myArray.concat(addedValue)
+                            }
                             const { promotions } = cache.readQuery({ query: GET_PROMOTIONS });
-                            promotions.push(createPromotion)
+                            //does not update
+                            // promotions.push(createPromotion)
                             cache.writeQuery({
                                 query: GET_PROMOTIONS,
-                                data: { promotions }
+                                //does not update
+                                // data: { promotions }
+                                data: { promotions: add(promotions,createPromotion) }
                             });
                         }}>
                         {createPromotion => (

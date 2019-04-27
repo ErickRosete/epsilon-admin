@@ -93,6 +93,8 @@ export class ProductPage extends Component {
 
           <Query query={GET_PRODUCTS}>
             {({ loading, error, data }) => {
+              console.log("productos")
+              console.log(data.products)
               if (loading) return <Spinner />;
               if (error) return <p>Error :( recarga la pagina!</p>;
 
@@ -136,14 +138,20 @@ export class ProductPage extends Component {
           <Mutation
             mutation={DELETE_PRODUCT}
             update={(cache, { data: { deleteProduct } }) => {
+              function spliceNoMutate(myArray,indexToRemove) {
+                return myArray.slice(0,indexToRemove).concat(myArray.slice(indexToRemove+1));
+              }
               const { products } = cache.readQuery({ query: GET_PRODUCTS });
               const productIndex = products.findIndex(
                 product => product._id === deleteProduct._id
               );
-              products.splice(productIndex, 1);
+              //does not update
+              // products.splice(productIndex, 1);
               cache.writeQuery({
                 query: GET_PRODUCTS,
-                data: { products }
+                //does not update
+                // data: { products }
+                data:{products:spliceNoMutate(products ,productIndex)}
               });
             }}
           >
