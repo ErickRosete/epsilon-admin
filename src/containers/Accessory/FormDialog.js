@@ -39,6 +39,7 @@ export class FormDialog extends Component {
     let accessory = {
       ...this.state,
       totalQuantity: +this.state.totalQuantity,
+      currentQuantity: +this.state.totalQuantity,
       deleted: false,
     }
 

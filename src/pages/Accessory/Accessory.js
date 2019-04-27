@@ -121,12 +121,25 @@ export class AccessoryPage extends Component {
           {/* EDIT */}
           <Mutation mutation={EDIT_ACCESSORY}
             update={(cache, { data: { updateAccessory } }) => {
-              const { accessories } = cache.readQuery({ query: GET_ACCESSORIES });
+              console.log("edited")
+              function updateArray(arr,index,newValue){
+                console.log(arr)
+                arr[index] = newValue
+                return arr
+              }
+              console.log(updateAccessory)
+              console.log(updateAccessory._id)
+
+              let { accessories } = cache.readQuery({ query: GET_ACCESSORIES });
               let editedAccessoryIndex = accessories.findIndex(accessory => accessory._id === updateAccessory._id)
-              accessories[editedAccessoryIndex] = updateAccessory
+              //does not update
+              // accessories[editedAccessoryIndex] = updateAccessory
+              console.log("el nuevo")
+              updateArray(accessories,editedAccessoryIndex,updateAccessory)
               cache.writeQuery({
                 query: GET_ACCESSORIES,
-                data: { accessories }
+                
+                data: { accessories: updateArray(accessories,editedAccessoryIndex,updateAccessory)}
               });
             }}>
             {updateAccessory => (
@@ -135,6 +148,8 @@ export class AccessoryPage extends Component {
                 accessory={this.state.selectedAccessory}
                 open={this.state.openEditDialog}
                 onConfirm={(accessory) => {
+                  console.log("confirmed")
+                  console.log(accessory)
                   updateAccessory({
                     variables: { ...accessory }
                   });

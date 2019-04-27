@@ -405,7 +405,16 @@ export class Form extends Component {
     let texto=productos[index].additionalAccessory
     this.getAccessory(texto,index);
   }
+  deleteHandler=(pindex)=>{
+    console.log("deleting")
+    console.log(pindex)
+    let productos=this.state.productos
+    productos.splice(pindex,1)
+    let accesorios=this.state.accesorios
+    accesorios.splice(pindex,1)
 
+    this.setState({productos,accesorios})
+  }
   // accesorios=[{name:"uno",_id:"1"},
   // {name:"dos",_id:"2"}]
   render() {
@@ -457,7 +466,7 @@ export class Form extends Component {
                         disabled
                         id="standard-disabled"
                         label="Código"
-                        defaultValue={product.coincidencia}
+                        value={product.coincidencia}
                         className={classes.textField}
                         margin="normal"
                         variant="filled"
@@ -465,13 +474,13 @@ export class Form extends Component {
                       />
                         {/* <Paper className={classes.paper}>{product.coincidencia}</Paper> */}
                     </Grid>
-                    <Grid item xs={8} sm={8} >
+                    <Grid item xs={8} sm={6} >
                       {/* <Paper className={classes.paper}>{product.name}</Paper> */}
                       <TextField
                         disabled
                         id="standard-disabled"
                         label="Nombre del producto"
-                        defaultValue={product.name}
+                        value={product.name}
                         className={classes.textField}
                         margin="normal"
                         variant="filled"
@@ -495,6 +504,11 @@ export class Form extends Component {
                           fullWidth
                         />
                     </Grid>
+                    <Grid item xs={8} sm={2}>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={this.deleteHandler.bind(this,pindex)}>
+                      Remove
+                    </Button>
+                    </Grid>
                   </Grid>
                 {/* accesorios del producto */}
                 {product.accessories.length>0 && estado.accesorios[pindex].map((accessory,index)=>{
@@ -502,7 +516,8 @@ export class Form extends Component {
                   // {product.accessories.length>0 && product.newAccessories.map((accessory,index)=>{
                     // console.log()
                     console.log("productitos")
-                  console.log(this.state.accesorios[pindex])
+                    console.log(this.state)
+                  // console.log(this.state.accesorios[pindex])
                   // console.log(e)
                   // console.log("code")
                   // console.log(accessory.code)

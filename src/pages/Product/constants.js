@@ -98,9 +98,7 @@ export const EDIT_PRODUCT = gql`
     $totalQuantity: Int
     $codes: [String]
   ) {
-    updateProduct(
-      id: $id
-      productInput: {
+    updateProduct(id: $id,productInput: {
         name: $name
         imageLinks: $imageLinks
         shortDescription: $shortDescription
@@ -122,6 +120,7 @@ export const EDIT_PRODUCT = gql`
       codes
       accessories {
         _id
+        name
       }
     }
   }

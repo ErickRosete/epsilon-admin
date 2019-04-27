@@ -93,8 +93,8 @@ export class ProductPage extends Component {
 
           <Query query={GET_PRODUCTS}>
             {({ loading, error, data }) => {
-              console.log("productos")
-              console.log(data.products)
+              // console.log("productos")
+              // console.log(data.products)
               if (loading) return <Spinner />;
               if (error) return <p>Error :( recarga la pagina!</p>;
 

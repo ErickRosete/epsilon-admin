@@ -37,6 +37,7 @@ export class Form extends Component {
     let shortDescription = "";
     let subcategories = [];
     let accessories = [];
+    let currentQuantity=0;
     let totalQuantity = 0;
     let codes = [""];
 
@@ -50,6 +51,7 @@ export class Form extends Component {
       subcategories = props.product.subcategories ? props.product.subcategories.map(subcategory => subcategory._id) : [];
       accessories = props.product.accessories ? props.product.accessories.map(accessory => accessory._id) : [];
       totalQuantity = props.product.totalQuantity ? props.product.totalQuantity : 0;
+      currentQuantity = props.product.currentQuantity ? props.product.currentQuantity : 0;
       codes = props.product.codes ? [...props.product.codes, ""] : [""];
       console.log("paso3")
       console.log(accessories)
@@ -70,6 +72,7 @@ export class Form extends Component {
       subcategories,
       accessories,
       totalQuantity,
+      currentQuantity,
       codes,
       uploadingImages: false
     };
@@ -160,12 +163,13 @@ export class Form extends Component {
 
     let codes = this.state.codes;
     codes.pop();
-    const totalQuantity = codes.length;
-
+    let totalQuantity = codes.length;
+    let currentQuantity=totalQuantity;
 
     let product = {
       name,
       totalQuantity,
+      currentQuantity,
       codes,
       deleted: false,
       imageLinks: this.state.imageLinks,
