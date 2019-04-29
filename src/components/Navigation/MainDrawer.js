@@ -72,7 +72,7 @@ const ResponsiveDrawer = props => {
         <NavLink to="/" className={classes.drawerTitle} exact>
           <img style={{ width: '80%' }} src={whiteLogo120w} alt="logo" />
           {/* <Typography variant="h6" color="inherit">
-            CYDCOM
+            EPSILON
           </Typography> */}
         </NavLink>
       </div>
