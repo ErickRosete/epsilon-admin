@@ -26,9 +26,6 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit
   },
-  input: {
-    display: "none"
-  },
   playerWrapper: {
     position: "relative",
     paddingTop: "56.25%" /* Player ratio: 100 / (1280 / 720) */
