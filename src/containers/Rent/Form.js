@@ -112,7 +112,10 @@ export class Form extends Component {
 
   searchProducts = (code) => {
     const products = [...this.state.productos];
-    const product = products.find(prod => prod.codes.indexOf(code) > -1);
+    console.log(products)
+    //opc 1
+    // const product = products.find(prod => prod.codes.indexOf(code) > -1);
+    const product = products.find(prod => prod.coincidencia.indexOf(code) > -1);
     if (!product) {
       this.addProduct(code);
     } else {
@@ -183,7 +186,7 @@ export class Form extends Component {
 
   accessoryQuantity = (index, pindex, event) => {
     const products = [...this.state.productos]
-    products[pindex].accessories[index].quantity = event.target.value
+    products[pindex].accessories[index].quantity = +event.target.value
     this.setState({
       products
     })
@@ -257,9 +260,10 @@ export class Form extends Component {
     console.log("salida")
     if (this.state.selectedCustomer) {
       if (this.state.productos.length > 0) {
+        // let uniqueProducts=[]
+        let uniqueAccessories=[]
         let rentProducts = []
         let rentAccessories = [];
-
         console.log("productos rentados")
         for (let prod of this.state.productos) {
           let rentProductInput = {
@@ -267,7 +271,6 @@ export class Form extends Component {
             code: prod.coincidencia.toString(),
             product: prod._id
           }
-          console.log(rentProductInput)
           await this.props.client.mutate({
             mutation: RENT_PRODUCT,
             variables: { ...rentProductInput }
@@ -275,28 +278,39 @@ export class Form extends Component {
             console.log(data.data.createRentProduct._id)
             rentProducts.push(data.data.createRentProduct._id)
           }).catch((err) => { console.log(err) })
-          // rentProducts.push(i._id)
 
-
-          for (let acc of prod.accessories) {
-            // console.log(i)
-            rentAccessories.push(acc._id)
-            let rentAcc = {
-              quantity: +acc.quantity,
-              accessory: acc._id
+          for(let acc of prod.accessories) {
+            let ubicacion=uniqueAccessories.findIndex(function(element) {
+              return element.accessory === acc._id;
+            });
+            console.log(ubicacion)
+            if(ubicacion===-1){
+              let rentAcc = {
+                quantity: +acc.quantity,
+                accessory: acc._id
+              }
+              uniqueAccessories.push(rentAcc)
             }
-            await this.props.client.mutate({
-              mutation: RENT_ACC,
-              variables: { ...rentAcc }
-            }).then(data => {
-              rentAccessories.push(data.data.createRentAccessory._id)
-              console.log(data.data.createRentAccessory._id)
-            }).catch((err) => { console.log(err) })
-          }
+            else{
+              uniqueAccessories[ubicacion].quantity+=acc.quantity;
+            }
+          } 
+
         }
 
-        console.log(rentProducts)
+        for(let acc of uniqueAccessories){
+          await this.props.client.mutate({
+            mutation: RENT_ACC,
+            variables: { ...acc }
+          }).then(data => {
+            rentAccessories.push(data.data.createRentAccessory._id)
+            console.log(data.data.createRentAccessory._id)
+          }).catch((err) => { console.log(err) })  
+        }
+
+        console.log(uniqueAccessories)
         console.log(rentAccessories)
+        console.log(rentProducts)
         let obj = {
           // startDate:"hoy",
           startDate: new Date("11/20/2014 04:11"),
@@ -311,16 +325,67 @@ export class Form extends Component {
           variables: { ...obj }
         }).then(data => {
           // rentAccessories.push(data.data.createRentAccessory._id)
-          console.log(data)
+          console.log(data.data.createRent)
           alert("La renta ha sido exitosa")
         }).catch((err) => { console.log(err) })
-        // input RentInput{
-        //     startDate: String
-        //     endDate: String
-        //     client: ID
-        //     rentProducts: [ID]
-        //     rentAccessories: [ID]
+
+        // const x=uniqueProducts.indexOf("hol")
+        // console.log(x);
+        // console.log("hola")
+
+        // for (let prod of this.state.productos) {
+        //   let rentProductInput = {
+        //     quantity: +prod.quantity,
+        //     code: prod.coincidencia.toString(),
+        //     product: prod._id
+        //   }
+        //   console.log(rentProductInput)
+        //   await this.props.client.mutate({
+        //     mutation: RENT_PRODUCT,
+        //     variables: { ...rentProductInput }
+        //   }).then(data => {
+        //     console.log(data.data.createRentProduct._id)
+        //     rentProducts.push(data.data.createRentProduct._id)
+        //   }).catch((err) => { console.log(err) })
+        //   // rentProducts.push(i._id)
+
+
+        //   for (let acc of prod.accessories) {
+        //     // console.log(i)
+        //     rentAccessories.push(acc._id)
+        //     let rentAcc = {
+        //       quantity: +acc.quantity,
+        //       accessory: acc._id
+        //     }
+        //     await this.props.client.mutate({
+        //       mutation: RENT_ACC,
+        //       variables: { ...rentAcc }
+        //     }).then(data => {
+        //       rentAccessories.push(data.data.createRentAccessory._id)
+        //       console.log(data.data.createRentAccessory._id)
+        //     }).catch((err) => { console.log(err) })
+        //   }
         // }
+
+        // console.log(rentProducts)
+        // console.log(rentAccessories)
+        // let obj = {
+        //   // startDate:"hoy",
+        //   startDate: new Date("11/20/2014 04:11"),
+        //   endDate: new Date("11/21/2014 04:11"),
+        //   client: this.state.selectedCustomer._id,
+        //   rentProducts,
+        //   rentAccessories
+        // }
+        // console.log(obj)
+        // this.props.client.mutate({
+        //   mutation: RENT_TOTAL,
+        //   variables: { ...obj }
+        // }).then(data => {
+        //   // rentAccessories.push(data.data.createRentAccessory._id)
+        //   console.log(data)
+        //   alert("La renta ha sido exitosa")
+        // }).catch((err) => { console.log(err) })
       }
       else {
         alert("No has seleccionado productos")
@@ -403,7 +468,7 @@ export class Form extends Component {
 
           {this.state.productos && this.state.productos.map((product, pindex) => {
             return (
-              <Grid justify="center" container spacing={24} key={product._id} style={{ marginBottom: "2rem" }}>
+              <Grid justify="center" container spacing={24} key={product.coincidencia} style={{ marginBottom: "2rem" }}>
                 {/* producto agregado */}
                 <Grid item xs={10} justify="flex-end"
                   container spacing={24} key={pindex} >

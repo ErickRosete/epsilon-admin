@@ -33,6 +33,7 @@ query ProductByCode($code: String!){
       shortDescription
       codes
       accessories{
+        _id
         name
         code
       }
