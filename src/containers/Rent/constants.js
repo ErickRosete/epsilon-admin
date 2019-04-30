@@ -54,6 +54,20 @@ export const GET_CLIENTS = gql`
     }
   }
 `;
+
+export const GET_CLIENT = gql`
+  query Client($id: ID!){
+    client(id: $id) {
+      _id
+      name
+      email
+      company
+      phone
+      address
+    }
+  }
+`;
+
 export const GET_ACCESSORIES = gql`
   {
     accessories {

@@ -15,6 +15,7 @@ import Table from "../../components/Client/Table";
 //Dialog
 import DeleteDialog from "../../components/Dialog/DeleteDialog";
 import FormDialog from "../../containers/Client/FormDialog";
+import InventoryDialog from "../../components/Client/InventoryDialog";
 
 //graphql
 import { Query, Mutation } from "react-apollo";
@@ -26,8 +27,22 @@ export class ClientPage extends Component {
         openDeleteDialog: false,
         openEditDialog: false,
         openAddDialog: false,
+        openInventoryDialog: false,
         selectedClient: { _id: "" },
     };
+
+    handleOpenInventoryDialog = client => {
+        this.setState({
+            selectedClient: client,
+            openInventoryDialog: true
+        });
+    }
+
+    handleCloseInventoryDialog = () => {
+        this.setState({
+            openInventoryDialog: false
+        });
+    }
 
     handleOpenDeleteDialog = client => {
         this.setState({
@@ -71,6 +86,7 @@ export class ClientPage extends Component {
                                 return <Spinner />;
                             if (error) return <p>Error :(</p>;
                             return (<Table clients={data.clients}
+                                openInventory={this.handleOpenInventoryDialog}
                                 openEdit={this.handleOpenEditDialog}
                                 openDelete={this.handleOpenDeleteDialog} />);
                         }}
@@ -168,6 +184,12 @@ export class ClientPage extends Component {
                         )}
                     </Mutation>
 
+                    {/* Client Inventory */}
+                    <InventoryDialog
+                        clientId={this.state.selectedClient._id}
+                        open={this.state.openInventoryDialog}
+                        onCancel={this.handleCloseInventoryDialog}
+                    />
                 </div>
             </Layout>
         );

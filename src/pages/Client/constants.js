@@ -14,7 +14,6 @@ export const GET_CLIENTS = gql`
   }
 `;
 
-
 export const EDIT_CLIENT = gql`
   mutation UpdateClient($id: ID!, $name: String!, $phone: String, $email: String, $company: String, $address: String) {
     updateClient(

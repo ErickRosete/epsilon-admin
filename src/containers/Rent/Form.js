@@ -12,10 +12,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import RentIcon from "@material-ui/icons/Forward"
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { withApollo } from "react-apollo";
 import {
-  GET_CLIENTS, GET_ACCESSORY_BY_CODE, GET_PRODUCT_BY_CODE,
+  GET_CLIENTS, GET_CLIENT, GET_ACCESSORY_BY_CODE, GET_PRODUCT_BY_CODE,
   RENT_PRODUCT, RENT_ACC, RENT_TOTAL,
 } from "./constants";
 
@@ -29,6 +31,31 @@ export class Form extends Component {
     foundCustomers: [],
     selectedCustomer: {},
     accesorios: []
+  }
+
+  componentDidMount() {
+    const clientId = this.props.clientId;
+    if (clientId) {
+      this.props.client
+        .query({
+          query: GET_CLIENT,
+          variables: { id: clientId }
+        })
+        .then(data => {
+          const client = data.data.client;
+          if (client) {
+            this.setState({ selectedCustomer: client })
+          }
+        })
+        .catch(error => {
+          console.log("error", error)
+          if (error.graphQLErrors && error.graphQLErrors.length > 0)
+            console.log(`error: ${error.graphQLErrors[0].message}`)
+          this.setState({
+            error: true
+          })
+        });
+    }
   }
 
   handleChange = name => event => {
@@ -214,15 +241,16 @@ export class Form extends Component {
       });
   }
 
-  deleteHandler = (pindex) => {
-    console.log("deleting")
-    console.log(pindex)
-    let productos = this.state.productos
+  deleteProductHandler = (pindex) => {
+    let productos = [...this.state.productos];
     productos.splice(pindex, 1)
-    let accesorios = this.state.accesorios
-    accesorios.splice(pindex, 1)
+    this.setState({ productos })
+  }
 
-    this.setState({ productos, accesorios })
+  deleteAccessoryHandler = (aindex, pindex) => {
+    let productos = [...this.state.productos];
+    productos[pindex].accessories.splice(aindex, 1);
+    this.setState({ productos })
   }
 
   rentHandler = async () => {
@@ -266,7 +294,7 @@ export class Form extends Component {
             }).catch((err) => { console.log(err) })
           }
         }
-        
+
         console.log(rentProducts)
         console.log(rentAccessories)
         let obj = {
@@ -346,6 +374,7 @@ export class Form extends Component {
               container justify="flex-end">
               <Button variant="contained" color="secondary" className={classes.button} onClick={this.rentHandler}>
                 Salida
+                <RentIcon className={classes.rightIcon}></RentIcon>
               </Button>
             </Grid>
 
@@ -421,9 +450,10 @@ export class Form extends Component {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={8} sm={2}>
-                    <Button variant="contained" color="secondary" className={classes.button} onClick={this.deleteHandler.bind(this, pindex)}>
-                      Remove
+                  <Grid item xs={8} sm={2} className={classes.center}>
+                    <Button variant="contained" color="secondary"
+                      onClick={this.deleteProductHandler.bind(this, pindex)}>
+                      <ClearIcon />
                     </Button>
                   </Grid>
                 </Grid>
@@ -476,6 +506,13 @@ export class Form extends Component {
                             fullWidth
                           />
                         </Grid>
+                        <Grid item xs={8} sm={2} className={classes.center}>
+                          <Button variant="contained" color="secondary"
+                            onClick={this.deleteAccessoryHandler.bind(this, index, pindex)}>
+                            <ClearIcon />
+
+                          </Button>
+                        </Grid>
                       </Grid>
                     </React.Fragment>
                   )
@@ -485,7 +522,7 @@ export class Form extends Component {
                   <Grid item xs={8} sm={7} >
                     <TextField
                       // select
-                      label="Accesorio a agregar"
+                      label="Accesorio a agregar por código"
                       // className={classNames(classes.margin, classes.textField)}
                       value={this.state.productos[pindex].additionalAccessory}
                       // additionalAccessory

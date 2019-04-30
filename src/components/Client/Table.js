@@ -78,6 +78,15 @@ const ClientTable = (props) => {
                                     Eliminar
                               <DeleteIcon className={classes.rightIcon} />
                                 </Button>
+
+                                <Button
+                                    variant="contained"
+                                    aria-label="Inventory"
+                                    className={classes.button}
+                                    onClick={props.openInventory.bind(this, row)}
+                                >
+                                    Productos en renta
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

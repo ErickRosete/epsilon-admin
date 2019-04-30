@@ -20,6 +20,7 @@ import QuotationPage from "./pages/Quotation/Quotation";
 import RentPage from "./pages/Rent/Rent";
 import InventoryPage from "./pages/Inventory/Inventory";
 import RentFormPage from "./pages/Rent/Form/RentForm"
+import ScrollToTop from "./containers/ScrollToTop/ScrollToTop";
 
 //Providers and context
 import { ApolloProvider } from "react-apollo";
@@ -80,42 +81,44 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <AuthContext.Provider
-          value={{
-            token: this.state.token,
-            userId: this.state.userId,
-            login: this.login,
-            logout: this.logout
-          }}
-        >
-          <ApolloProvider client={client}>
-            <MuiThemeProvider theme={theme}>
-              <CssBaseline />
-              {this.state.token ?
-                (<Switch>
-                  <Route path="/category" component={CategoryPage} />
-                  <Route path="/subcategory" component={SubcategoryPage} />
-                  <Route path="/product/add" component={ProductFormPage} />
-                  <Route path="/product/edit/:id" component={ProductFormPage} />
-                  <Route path="/product" component={ProductPage} />
-                  <Route path="/accessory" component={AccessoryPage} />
-                  <Route path="/promotion" component={PromotionPage} />
-                  <Route path="/client" component={ClientPage} />
-                  <Route path="/quotation" component={QuotationPage} />
-                  <Route path="/rent/add" component={RentFormPage} />
-                  <Route path="/rent/edit/:id" component={RentFormPage} />
-                  <Route path="/rent" component={RentPage} />
-                  <Route path="/inventory" component={InventoryPage} />
-                  <Redirect to="/quotation" />
-                </Switch>) :
-                (<Switch>
-                  <Route path="/auth" component={AuthPage} />
-                  <Redirect to="/auth" />
-                </Switch>)
-              }
-            </MuiThemeProvider>
-          </ApolloProvider>
-        </AuthContext.Provider>
+        <ScrollToTop>
+          <AuthContext.Provider
+            value={{
+              token: this.state.token,
+              userId: this.state.userId,
+              login: this.login,
+              logout: this.logout
+            }}
+          >
+            <ApolloProvider client={client}>
+              <MuiThemeProvider theme={theme}>
+                <CssBaseline />
+                {this.state.token ?
+                  (<Switch>
+                    <Route path="/category" component={CategoryPage} />
+                    <Route path="/subcategory" component={SubcategoryPage} />
+                    <Route path="/product/add" component={ProductFormPage} />
+                    <Route path="/product/edit/:id" component={ProductFormPage} />
+                    <Route path="/product" component={ProductPage} />
+                    <Route path="/accessory" component={AccessoryPage} />
+                    <Route path="/promotion" component={PromotionPage} />
+                    <Route path="/client" component={ClientPage} />
+                    <Route path="/quotation" component={QuotationPage} />
+                    <Route path="/rent/add/:clientId?" component={RentFormPage} />
+                    <Route path="/rent/edit/:id" component={RentFormPage} />
+                    <Route path="/rent" component={RentPage} />
+                    <Route path="/inventory" component={InventoryPage} />
+                    <Redirect to="/quotation" />
+                  </Switch>) :
+                  (<Switch>
+                    <Route path="/auth" component={AuthPage} />
+                    <Redirect to="/auth" />
+                  </Switch>)
+                }
+              </MuiThemeProvider>
+            </ApolloProvider>
+          </AuthContext.Provider>
+        </ScrollToTop>
       </BrowserRouter>
     );
   }

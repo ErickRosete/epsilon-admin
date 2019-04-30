@@ -5,11 +5,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import Link from "react-router-dom/Link";
 //Buttons
 // import DeleteIcon from "@material-ui/icons/Delete";
 // import EditIcon from "@material-ui/icons/Edit";
 import PageViewIcon from "@material-ui/icons/Pageview"
+import RentIcon from "@material-ui/icons/Forward"
 import Button from "@material-ui/core/Button";
 
 //wrappers
@@ -62,6 +63,16 @@ const QuotationTable = (props) => {
                                 {row.client.email}
                             </TableCell>
                             <TableCell align="right">
+                                <Link to={`rent/add/${row.client._id}`} style={{ textDecoration: 'none' }}>
+                                    <Button
+                                        variant="contained"
+                                        aria-label="Add Rent"
+                                        className={classes.button}
+                                    >
+                                        Renta
+                                        <RentIcon className={classes.rightIcon} />
+                                    </Button>
+                                </Link>
                                 <Button
                                     variant="contained"
                                     color="primary"

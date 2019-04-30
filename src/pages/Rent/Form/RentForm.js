@@ -5,7 +5,7 @@ import Layout from "../../../containers/Layout/Layout";
 import Form from "../../../containers/Rent/Form";
 import { Query, Mutation } from "react-apollo";
 
-import { GET_RENT, ADD_RENT, EDIT_RENT, ADD_RENT_PRODUCT } from "../constants";
+import { GET_RENT, ADD_RENT, EDIT_RENT } from "../constants";
 
 class RentFormPage extends Component {
     constructor(props) {
@@ -57,19 +57,14 @@ class RentFormPage extends Component {
                             }}
                         >
                             {createRent => (
-                                <Mutation mutation={ADD_RENT_PRODUCT}>
-                                    {createRentPrduct => (
-                                        <Form
-                                            onSubmit={rent => {
-                                                createRent({
-                                                    variables: { ...rent }
-                                                });
-                                                this.setState({ return: true })
-                                            }}
-                                        />
-                                    )}
-                                </Mutation>
-
+                                <Form clientId={this.props.match.params.clientId}
+                                    onSubmit={rent => {
+                                        createRent({
+                                            variables: { ...rent }
+                                        });
+                                        this.setState({ return: true })
+                                    }}
+                                />
                             )}
                         </Mutation>
                     )

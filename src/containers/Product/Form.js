@@ -37,7 +37,7 @@ export class Form extends Component {
     let shortDescription = "";
     let subcategories = [];
     let accessories = [];
-    let currentQuantity=0;
+    let currentQuantity = 0;
     let totalQuantity = 0;
     let codes = [""];
 
@@ -76,6 +76,11 @@ export class Form extends Component {
       codes,
       uploadingImages: false
     };
+  }
+
+  componentDidMount() {
+    //start at top
+    window.scrollTo(0, 0);
   }
 
   onEditorStateChange = editorState => {
@@ -164,7 +169,7 @@ export class Form extends Component {
     let codes = this.state.codes;
     codes.pop();
     let totalQuantity = codes.length;
-    let currentQuantity=totalQuantity;
+    let currentQuantity = totalQuantity;
 
     let product = {
       name,
@@ -238,9 +243,9 @@ export class Form extends Component {
 
 
           {this.state.uploadingImage ? (
-            <Spinner />): (
-            <p></p>
-          )}
+            <Spinner />) : (
+              <p></p>
+            )}
 
           {this.state.imageLinks && (
             <div className={classes.imgContainer}>
@@ -282,11 +287,12 @@ export class Form extends Component {
             });
 
             return (
-              <div className={classes.textfield}>
+              <div className={classes.textfield} >
                 <InputLabel shrink htmlFor="subcategories">
                   Subcategorias
                     </InputLabel>
                 <Select
+                  maxMenuHeight={190}
                   id="subcategories"
                   value={options.filter(option =>
                     this.state.subcategories.includes(option.value)
@@ -313,18 +319,18 @@ export class Form extends Component {
             });
             console.log(options)
             console.log("accesorios del producto ")
-            let filtrado=options.filter(option =>
+            let filtrado = options.filter(option =>
               this.state.accessories.includes(option.value)
             )
             console.log(filtrado)
             return (
-              <div className={classes.textfield}>
+              <div className={classes.textfield} >
                 <InputLabel shrink htmlFor="accessories"
                 >
                   Accesorios
                     </InputLabel>
                 <Select
-                
+
                   id="accessories"
                   value={options.filter(option =>
                     this.state.accessories.includes(option.value)

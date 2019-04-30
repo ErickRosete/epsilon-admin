@@ -6,11 +6,12 @@ export const GET_QUOTATIONS = gql`
       _id
       createdAt
       client {
-          email
-          name
-          company
-          address
-          phone
+        _id
+        email
+        name
+        company
+        address
+        phone
       }
       productQuotations {
         _id

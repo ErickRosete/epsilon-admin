@@ -63,7 +63,9 @@ const styles = theme => ({
   textField: {
     flexBasis: 200,
   },
- 
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  }
 });
 
 export default styles;
