@@ -258,7 +258,8 @@ export class Form extends Component {
 
   rentHandler = async () => {
     console.log("salida")
-    if (this.state.selectedCustomer) {
+    console.log(this.state.selectedCustomer._id)
+    if (this.state.selectedCustomer._id) {
       if (this.state.productos.length > 0) {
         // let uniqueProducts=[]
         let uniqueAccessories=[]

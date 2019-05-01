@@ -119,8 +119,8 @@ export class InventoryPage extends Component {
                               />
                             </TableCell>
                             <TableCell align="center">{product.name}</TableCell>
-                            <TableCell align="center">{product.totalQuantity}</TableCell>
                             <TableCell align="center">{product.currentQuantity}</TableCell>
+                            <TableCell align="center">{product.totalQuantity}</TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
@@ -150,8 +150,8 @@ export class InventoryPage extends Component {
                         {this.state.accesories.map(accesory => (
                             <TableRow key={accesory._id}>
                                 <TableCell align="center">{accesory.name}</TableCell>
-                                <TableCell align="center">{accesory.totalQuantity}</TableCell>
                                 <TableCell align="center">{accesory.currentQuantity}</TableCell>
+                                <TableCell align="center">{accesory.totalQuantity}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

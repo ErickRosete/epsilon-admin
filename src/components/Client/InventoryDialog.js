@@ -41,6 +41,8 @@ const InventoryDialog = (props) => {
                                 return <Spinner />
                             if (error) return <p>Error :(</p>
                             const clientInventory = data.clientInventory;
+                            console.log(clientInventory)
+
                             if (clientInventory.inventoryProducts.length === 0)
                                 return <h3>El cliente no cuenta con ningun producto en renta</h3>
 
@@ -75,8 +77,8 @@ const InventoryDialog = (props) => {
                                         </TableHead>
                                         <TableBody>
                                             {inventoryAccessories.map(invAcc => (
-                                                <TableRow key={invAcc.accesory._id}>
-                                                    <TableCell align="center">{invAcc.accesory.name}</TableCell>
+                                                <TableRow key={invAcc.accessory._id}>
+                                                    <TableCell align="center">{invAcc.accessory.name}</TableCell>
                                                     <TableCell align="center">{invAcc.quantity}</TableCell>
                                                 </TableRow>
                                             ))}
