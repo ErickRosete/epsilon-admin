@@ -7,6 +7,7 @@ export const GET_PRODUCT = gql`
       name
       imageLinks
       shortDescription
+      details
       description
       currentQuantity
       totalQuantity
@@ -30,6 +31,7 @@ export const GET_PRODUCTS = gql`
       name
       imageLinks
       shortDescription
+      details
       description
       currentQuantity
       totalQuantity
@@ -47,6 +49,7 @@ export const ADD_PRODUCT = gql`
     $name: String
     $imageLinks: [String]
     $shortDescription: String
+    $details: String
     $description: String
     $subcategories: [ID]
     $accessories: [ID]
@@ -60,6 +63,7 @@ export const ADD_PRODUCT = gql`
         name: $name
         imageLinks: $imageLinks
         shortDescription: $shortDescription
+        details: $details
         description: $description
         subcategories: $subcategories
         currentQuantity: $currentQuantity
@@ -73,6 +77,7 @@ export const ADD_PRODUCT = gql`
       name
       imageLinks
       shortDescription
+      details
       description
       currentQuantity
       totalQuantity
@@ -91,6 +96,7 @@ export const EDIT_PRODUCT = gql`
     $name: String
     $imageLinks: [String]
     $shortDescription: String
+    $details: String
     $description: String
     $subcategories: [ID]
     $accessories: [ID]
@@ -102,6 +108,7 @@ export const EDIT_PRODUCT = gql`
         name: $name
         imageLinks: $imageLinks
         shortDescription: $shortDescription
+        details: $details
         description: $description
         subcategories: $subcategories
         currentQuantity: $currentQuantity
@@ -114,6 +121,7 @@ export const EDIT_PRODUCT = gql`
       name
       imageLinks
       shortDescription
+      details
       description
       currentQuantity
       totalQuantity

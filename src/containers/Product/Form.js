@@ -29,12 +29,11 @@ import { GET_ACCESSORIES } from "../../pages/Accessory/constants";
 export class Form extends Component {
   constructor(props) {
     super(props);
-    console.log("paso1?")
-    console.log(props)
     let editorState = EditorState.createEmpty();
     let name = "";
     let imageLinks = [];
     let shortDescription = "";
+    let details = "";
     let subcategories = [];
     let accessories = [];
     let currentQuantity = 0;
@@ -43,7 +42,6 @@ export class Form extends Component {
 
 
     if (props.product) {
-      console.log("paso2")
       console.log(props.product);
       name = props.product.name ? props.product.name : "";
       shortDescription = props.product.shortDescription ? props.product.shortDescription : "";
@@ -53,7 +51,8 @@ export class Form extends Component {
       totalQuantity = props.product.totalQuantity ? props.product.totalQuantity : 0;
       currentQuantity = props.product.currentQuantity ? props.product.currentQuantity : 0;
       codes = props.product.codes ? [...props.product.codes, ""] : [""];
-      console.log("paso3")
+      details = props.product.details ? props.product.details : "";
+
       console.log(accessories)
       //editor
       const html = props.product.description;
@@ -74,6 +73,7 @@ export class Form extends Component {
       totalQuantity,
       currentQuantity,
       codes,
+      details,
       uploadingImages: false
     };
   }
@@ -179,6 +179,7 @@ export class Form extends Component {
       deleted: false,
       imageLinks: this.state.imageLinks,
       shortDescription: this.state.shortDescription,
+      details: this.state.details,
       subcategories: this.state.subcategories,
       accessories: this.state.accessories,
       description: draftToHtml(
@@ -266,16 +267,6 @@ export class Form extends Component {
           )}
         </div>
 
-        <TextField
-          className={classes.textfield}
-          margin="dense"
-          label="Descripción corta"
-          type="text"
-          fullWidth
-          value={this.state.shortDescription}
-          onChange={this.changeHandler.bind(this, "shortDescription")}
-        />
-
         {/* subcategorias */}
         <Query query={GET_SUBCATEGORIES}>
           {({ loading, error, data }) => {
@@ -343,6 +334,27 @@ export class Form extends Component {
             );
           }}
         </Query>
+
+        <TextField
+          className={classes.textfield}
+          margin="dense"
+          label="Descripción corta"
+          type="text"
+          fullWidth
+          value={this.state.shortDescription}
+          onChange={this.changeHandler.bind(this, "shortDescription")}
+        />
+
+
+        <TextField
+          className={classes.textfield}
+          margin="dense"
+          label="Descripción larga"
+          type="text"
+          fullWidth
+          value={this.state.details}
+          onChange={this.changeHandler.bind(this, "details")}
+        />
 
         <div className={classes.textfield}>
           <FormLabel
