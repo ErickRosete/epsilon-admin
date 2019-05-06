@@ -1,33 +1,12 @@
 import gql from "graphql-tag";
 
-export const GET_PROMOTIONS = gql`
+export const GET_PROMOTION = gql`
   {
-    promotions {
+    firstPromotion {
       _id
-      name
-      imageLink
-      active
-    }
-  }
-`;
-
-export const ADD_PROMOTION = gql`
-  mutation CreatePromotion(
-    $name: String
-    $imageLink: String
-    $active: Boolean
-  ) {
-    createPromotion(
-      promotionInput: {
-        name: $name
-        imageLink: $imageLink
-        active: $active
-      }
-    ) {
-      _id
-      name
-      imageLink
-      active
+      title
+      subtitle
+      percentage
     }
   }
 `;
@@ -35,30 +14,22 @@ export const ADD_PROMOTION = gql`
 export const EDIT_PROMOTION = gql`
   mutation UpdatePromotion(
     $id: ID!
-    $name: String
-    $imageLink: String
-    $active: Boolean
+    $title: String
+    $subtitle: String
+    $percentage: String
   ) {
     updatePromotion(
       id: $id
       promotionInput: {
-        name: $name
-        imageLink: $imageLink
-        active: $active
+        title: $title
+        subtitle: $subtitle
+        percentage: $percentage
       }
     ) {
         _id
-        name
-        imageLink
-        active
-    }
-  }
-`;
-
-export const DELETE_PROMOTION = gql`
-  mutation DeletePromotion($id: ID!) {
-    deletePromotion(id: $id) {
-      _id
+        title
+        subtitle
+        percentage
     }
   }
 `;
