@@ -67,6 +67,7 @@ export class PromotionPage extends Component {
                     {/* GET */}
                     <Query query={GET_PROMOTIONS}>
                         {({ loading, error, data }) => {
+                            console.log(data)
                             if (loading)
                                 return <Spinner></Spinner>
                             if (error) return <p>Error :(</p>;
