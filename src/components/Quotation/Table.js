@@ -4,6 +4,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 import Paper from "@material-ui/core/Paper";
 import Link from "react-router-dom/Link";
 //Buttons
@@ -33,17 +35,46 @@ const styles = theme => ({
     }
 });
 
-const QuotationTable = (props) => {
+
+const QuotationTable = props => {
     const { classes } = props;
     return (
         <Paper className={classes.tableRoot}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Fecha de solicitud</TableCell>
-                        <TableCell>Cliente</TableCell>
-                        <TableCell>Empresa</TableCell>
-                        <TableCell>Correo</TableCell>
+                        <TableCell>
+                            <TableSortLabel
+                                active={props.orderBy === 'createdAt'}
+                                direction={props.order}
+                                onClick={props.sortHandler.bind(this, "createdAt")}>
+                                Fecha de solicitud
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell>
+                            <TableSortLabel
+                                active={props.orderBy === 'name'}
+                                direction={props.order}
+                                onClick={props.sortHandler.bind(this, "name")}>
+                                Cliente
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell>
+                            <TableSortLabel
+                                active={props.orderBy === 'company'}
+                                direction={props.order}
+                                onClick={props.sortHandler.bind(this, "company")}>
+                                Empresa
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell>
+                            <TableSortLabel
+                                active={props.orderBy === 'email'}
+                                direction={props.order}
+                                onClick={props.sortHandler.bind(this, "email")}>
+                                Correo
+                            </TableSortLabel>
+                        </TableCell>
                         <TableCell align="right">acciones</TableCell>
                     </TableRow>
                 </TableHead>

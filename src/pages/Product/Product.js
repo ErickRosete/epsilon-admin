@@ -107,7 +107,9 @@ export class ProductPage extends Component {
                     product.name.toUpperCase().includes(filter) ||
                     product.price.toString().includes(filter) ||
                     product.shortDescription.toUpperCase().includes(filter) ||
-                    product.description.toUpperCase().includes(filter)
+                    product.description.toUpperCase().includes(filter) ||
+                    product.details.toUpperCase().includes(filter)
+
                 );
               }
 

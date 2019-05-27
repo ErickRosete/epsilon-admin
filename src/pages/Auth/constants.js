@@ -40,8 +40,8 @@ export const styles = theme => ({
   },
   image: {
     width: "100%",
-    backgroundColor: theme.palette.primary.main,
-    // padding: '1rem',
+    backgroundColor: 'rgba(96, 125, 139, 0.75)',
+    padding: '1rem',
     borderRadius: '3px'
   }
 });

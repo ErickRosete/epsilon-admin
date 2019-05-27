@@ -21,18 +21,20 @@ import {
   RENT_PRODUCT, RENT_ACC, RENT_TOTAL,
 } from "./constants";
 
+const currentDate = new Date().toISOString().split('T')[0];
 
 export class Form extends Component {
   state = {
     name: "",
     accesory: "",
     customer: "",
+    startDate: currentDate,
+    endDate: currentDate,
     productos: [],
     foundCustomers: [],
     selectedCustomer: {},
     accesorios: []
   }
-
   componentDidMount() {
     const clientId = this.props.clientId;
     if (clientId) {
@@ -59,6 +61,8 @@ export class Form extends Component {
   }
 
   handleChange = name => event => {
+    console.log(new Date().toDateString())
+    console.log(event.target.value)
     this.setState({ [name]: event.target.value });
     const value = event.target.value;
     switch (name) {
@@ -257,12 +261,20 @@ export class Form extends Component {
   }
 
   rentHandler = async () => {
-    console.log("salida")
-    console.log(this.state.selectedCustomer._id)
+    // console.log("salida")
+    // console.log(this.state.selectedCustomer._id)
+    const startDate = new Date(this.state.startDate);
+    const endDate = new Date(this.state.endDate);
+    if (endDate <= startDate) {
+      alert("La fecha de entrega debe ser mayor que la de salida");
+      return;
+    }
+
+
     if (this.state.selectedCustomer._id) {
       if (this.state.productos.length > 0) {
         // let uniqueProducts=[]
-        let uniqueAccessories=[]
+        let uniqueAccessories = []
         let rentProducts = []
         let rentAccessories = [];
         console.log("productos rentados")
@@ -280,33 +292,33 @@ export class Form extends Component {
             rentProducts.push(data.data.createRentProduct._id)
           }).catch((err) => { console.log(err) })
 
-          for(let acc of prod.accessories) {
-            let ubicacion=uniqueAccessories.findIndex(function(element) {
+          for (let acc of prod.accessories) {
+            let ubicacion = uniqueAccessories.findIndex(function (element) {
               return element.accessory === acc._id;
             });
             console.log(ubicacion)
-            if(ubicacion===-1){
+            if (ubicacion === -1) {
               let rentAcc = {
                 quantity: +acc.quantity,
                 accessory: acc._id
               }
               uniqueAccessories.push(rentAcc)
             }
-            else{
-              uniqueAccessories[ubicacion].quantity+=acc.quantity;
+            else {
+              uniqueAccessories[ubicacion].quantity += acc.quantity;
             }
-          } 
+          }
 
         }
 
-        for(let acc of uniqueAccessories){
+        for (let acc of uniqueAccessories) {
           await this.props.client.mutate({
             mutation: RENT_ACC,
             variables: { ...acc }
           }).then(data => {
             rentAccessories.push(data.data.createRentAccessory._id)
             console.log(data.data.createRentAccessory._id)
-          }).catch((err) => { console.log(err) })  
+          }).catch((err) => { console.log(err) })
         }
 
         console.log(uniqueAccessories)
@@ -314,8 +326,8 @@ export class Form extends Component {
         console.log(rentProducts)
         let obj = {
           // startDate:"hoy",
-          startDate: new Date("11/20/2014 04:11"),
-          endDate: new Date("11/21/2014 04:11"),
+          startDate,
+          endDate,
           client: this.state.selectedCustomer._id,
           rentProducts,
           rentAccessories
@@ -466,6 +478,43 @@ export class Form extends Component {
               </Grid>
             }
           </Grid>
+          <Grid justify="center" container spacing={24} style={{ marginBottom: "2rem" }}>
+            <Grid item xs={5}>
+              <TextField
+                required
+                label="Desde"
+                value={this.state.startDate}
+                onChange={this.handleChange("startDate")}
+                className={classes.textField}
+                margin="normal"
+                fullWidth
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ min: currentDate, max: "9999-01-01"}}
+                error={this.state.startDate === ""}
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <TextField
+                required
+                label="Hasta"
+                value={this.state.endDate}
+                onChange={this.handleChange("endDate")}
+                className={classes.textField}
+                margin="normal"
+                fullWidth
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{ min: currentDate, max: "9999-01-01"}}
+                error={this.state.endDate === ""}
+              />
+            </Grid>
+          </Grid>
+
 
           {this.state.productos && this.state.productos.map((product, pindex) => {
             return (
