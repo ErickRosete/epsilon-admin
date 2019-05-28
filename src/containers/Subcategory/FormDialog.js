@@ -78,9 +78,10 @@ export class FormDialog extends Component {
     if (this.props.subcategory) {
       subcategory = { ...subcategory, id: this.props.subcategory._id }
     }
-
+    else{
+      this.setState({ name: "", description: "", imageLink: "" })
+    }
     this.props.onConfirm(subcategory);
-    this.setState({ name: "", description: "", imageLink: "" })
   }
 
   render() {

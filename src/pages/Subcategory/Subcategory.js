@@ -137,6 +137,7 @@ export class SubcategoryPage extends Component {
                                 subcategory={this.state.selectedSubcategory}
                                 open={this.state.openEditDialog}
                                 onConfirm={(subcategory) => {
+                                    console.log("conconfirm")
                                     updateSubcategory({
                                         variables: { ...subcategory }
                                     });
